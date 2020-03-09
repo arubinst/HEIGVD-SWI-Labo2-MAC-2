@@ -57,6 +57,7 @@ Les probes request et les beacons ne sont pas chiffrées. Elle ne peuvent pas l'
 
 __Question__ : pourquoi les dispositifs iOS et Android récents ne peuvent-ils plus être tracés avec cette méthode ?
 
+Ces appareils utilisent des MAC addresses aléatoires afin d'empécher le traçage.
 
 ### 2. Détection de clients et réseaux
 
@@ -77,6 +78,10 @@ B8:17:C2:EB:8F:8F &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 08:EC:F5:28:1A:EF
 Développer un script en Python/Scapy capable de reveler le SSID correspondant à un réseau configuré comme étant "invisible".
 
 __Question__ : expliquer en quelques mots la solution que vous avez trouvée pour ce problème ?
+
+Un réseau invisible ne partage pas son SSID dans les beacons. Cependant on peut obtenir les MACs via ces mêmes beacons.
+Maintenant que l'on a une liste des APs cachées on peut écouter les messages d'une potentielle station se connectant sur le réseau en comparant la MAC. Ceci est possible car la station envoie SSID du réseau même s'il est caché.
+
 
 ## Livrables
 
