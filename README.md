@@ -84,6 +84,10 @@ B8:17:C2:EB:8F:8F &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 08:EC:F5:28:1A:EF
 Développer un script en Python/Scapy capable de reveler le SSID correspondant à un réseau configuré comme étant "invisible".
 
 __Question__ : expliquer en quelques mots la solution que vous avez trouvée pour ce problème ?
+```
+Pour résoudre ce problème nous avons commencé par écouter les beacons, lorsque elles n'avaient pas de SSID émit, nous les avons ajoutés à une liste d'équivalence entre adresse MAC et SSID.
+En même temps nous recherchons les probes réponses provenant d'adresse mac déjà dans notre liste. Si nous en trouvons une elle nous permettra de mettre le SSID correspondant à jour car les SSID sont envoyés en clair par l'AP dans les probes réponses.
+```
 
 ## Livrables
 
