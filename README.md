@@ -52,9 +52,18 @@ Développer un script en Python/Scapy capable de detecter une STA cherchant un S
 Pour la détection du SSID, vous devez utiliser Scapy. Pour proposer un evil twin, vous pouvez récupérer votre code du labo 1 ou vous servir d'un outil existant.
 
 __Question__ : comment ça se fait que ces trames puissent être lues par tout le monde ? Ne serait-il pas plus judicieux de les chiffrer ?
+```
+1) Ces trames ne sont pas chiffrés, tous le monde peut donc les lire.
+2) Ce n'est pas possible de les chiffrer, car ces informations doivent être disponible publiquement, car les APs ont besoin de répondre aux Probes requests.
+```
 
 __Question__ : pourquoi les dispositifs iOS et Android récents ne peuvent-ils plus être tracés avec cette méthode ?
+```
+Les dispositifs récents utilisent des outils pour rendre les adresses MAC aléatoire durant l’émission de probe request. L'adresse MAC du périphérique est bel et bien utilisé une fois la connexion établie. L'utilisation d'adresse MAC aléatoire permet d'éviter d'être tracé car il sera dur de lier une personne et les adresse générée par son périphérique.
 
+Source : https://source.android.com/devices/tech/connect/wifi-mac-randomization
+https://manuals.info.apple.com/MANUALS/1000/MA1902/en_US/apple-platform-security-guide.pdf page 112
+```
 
 ### 2. Détection de clients et réseaux
 
