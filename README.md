@@ -22,6 +22,8 @@
 
 __A faire en équipes de deux personnes__
 
+**Étudiants :** Stefan Dejanovic, Nathanaël Mizutani
+
 ## Introduction
 
 L’une des informations de plus intéressantes et utiles que l’on peut obtenir à partir d’un client sans fils de manière entièrement passive (et en clair) se trouve dans la trame ``Probe Request`` :
@@ -46,7 +48,7 @@ A des fins plus discutables du point de vue éthique, la détection de client s'
 ### 1. Probe Request Evil Twin Attack
 
 Nous allons nous intéresser dans cet exercice à la création d'un evil twin pour viser une cible que l'on découvre dynamiquement utilisant des probes.
- 
+
 Développer un script en Python/Scapy capable de detecter une STA cherchant un SSID particulier - proposer un evil twin si le SSID est trouvé (i.e. McDonalds, Starbucks, etc.).
 
 Pour la détection du SSID, vous devez utiliser Scapy. Pour proposer un evil twin, vous pouvez récupérer votre code du labo 1 ou vous servir d'un outil existant.
