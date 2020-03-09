@@ -6,15 +6,13 @@ import os
 
 SSIDs = set()
 
-
 # Let user select network interface to perform attack
 while(True): # Emulating do while in python
     ifaces = get_if_list() # Get interfaces in loop in case a new one appears
-    iface=input(f"Name of desired interface to perform deauthentication attack {ifaces} : ")
-    
+    iface = input(f"Name of desired interface to perform deauthentication attack {ifaces}: ")
+
     if(iface in ifaces):
         break
-
 
 # Scan network on all channel
 def change_channel(stop):
