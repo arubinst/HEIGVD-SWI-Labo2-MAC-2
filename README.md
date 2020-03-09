@@ -53,6 +53,8 @@ Pour la détection du SSID, vous devez utiliser Scapy. Pour proposer un evil twi
 
 __Question__ : comment ça se fait que ces trames puissent être lues par tout le monde ? Ne serait-il pas plus judicieux de les chiffrer ?
 
+Les probes request et les beacons ne sont pas chiffrées. Elle ne peuvent pas l'être car il faut que tout le monde puisse les voir même si les clés de chiffrement n'ont pas encore été échangées.
+
 __Question__ : pourquoi les dispositifs iOS et Android récents ne peuvent-ils plus être tracés avec cette méthode ?
 
 
