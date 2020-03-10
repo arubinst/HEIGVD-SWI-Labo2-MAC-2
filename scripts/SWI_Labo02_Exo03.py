@@ -1,4 +1,6 @@
 # Source:
+# - https://gist.github.com/thepacketgeek/6876699
+# - https://docs.python.org/3/howto/curses.html
 #
 # Author: Victor Truan, Jerome Bagnoud | SWI - Labo 02 - Exo 03
 
@@ -6,16 +8,18 @@ import argparse
 import curses
 from scapy.all import *
 
-#BROADCAST_MAC_ADDRESS = "ff:ff:ff:ff:ff:ff"
 PAIR_DICT = dict()
+BROADCAST_MAC_ADDRESS = "FF:FF:FF:FF:FF:FF"
 
 # Arguments
-parser = argparse.ArgumentParser(description="")
+parser = argparse.ArgumentParser(description="Ce script permet de detecter les SSID cache, et d'essayer de les reveler en lisant les Probe response de ces APs")
 parser.add_argument("-i", "--interface", required=True, help="l'interface a utiliser")
 
 arguments = parser.parse_args()
 
+# Met l'affichage des BSSID avec leur nom respectif a jour
 def updateBSSIDDisplay(stdscr):
+    # On efface d'abord ce qui est affiche dans le terminal
     stdscr.clear()
     stdscr.addstr(0,0,"BSSID MAC\t\t\t\t SSID")
 
@@ -27,9 +31,10 @@ def updateBSSIDDisplay(stdscr):
 
     stdscr.refresh()
 
-# We use a nested function in order to pass argument to the sniff() callback function, source: https://gist.github.com/thepacketgeek/6876699
+# On utilise une fonction neste afin de passer un argument supplémentaire au callback de sniff, source: https://gist.github.com/thepacketgeek/6876699
 def packetHandling(stdscr):
-    # This function verifiy if the packet is a management frame (more specifically a BeaconFrame), and read all necessary information from the packet (SSID, channel, etc...)
+    # Cette fonction verifie si le packet, est un Beacon ou une probe response, dans le cas d'un Beacon on va regarder si le SSID est cache, si c'est le cas on va le sauvegarder dans un dictionnaire
+    # puis si c'est un packet de Probe response, on va regarder si l'addresse est presente dans le dictionnaire et mettre a jour le SSID dans ce cas.
     def decloakSSID(packet):
         # Probe response
         if(packet.type == 0 and packet.subtype == 5):
@@ -47,15 +52,15 @@ def packetHandling(stdscr):
     return decloakSSID
 
 def main(stdscr):
-    # Avoid echoing the character typed and avoid delay for displaying things with curses library
+    # Empeche l'ecriture des caractere tape par curses
     curses.noecho()
     stdscr.nodelay(1)
 
     stdscr.addstr(0,0,"BSSID MAC\t\t\t\t SSID")
     stdscr.refresh()
 
-    # Begin to sniff, passing every packet collected to the packetHandling function
+    # On commence a sniffer, chaque packet collecte est envoye a la fonction handlePacket
     a = sniff(iface=arguments.interface, prn=packetHandling(stdscr))
 
-# Avoid bug with curses library while exiting the programm abruptely
+# Empeche les bug d'affichage avec la librairie curses, si le programme se quiite brutalement
 curses.wrapper(main)
