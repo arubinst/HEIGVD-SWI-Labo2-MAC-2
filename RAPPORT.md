@@ -14,11 +14,25 @@ Les clés permettant le chiffrement s'effectuant pendant la phase d'association 
 
 **Question** : pourquoi les dispositifs iOS et Android récents ne peuvent-ils plus être tracés avec cette méthode ?
 
-Les dispositifs récents iOs et Android randomise leurs MAC adresses avant la connexion avec un AP pour éviter d'être tracées. 
+Les dispositifs récents iOS et Android randomisent leurs MAC adresses avant la connexion avec un AP pour éviter d'être tracées. 
 
 #### 1.2 Fonctionnement du script
 
+Le script prend deux paramètres : l'interface sur laquelle sniffer et le string du SSID à détecter pendant le sniffing. 
 
+![](./images/ex1_script_params.png)
+
+Lorsqu'une probe request du réseau a été trouvée, le script va demander à l'utilisateur s'il souhaite continuer et effectuer une evil twin attack.
+
+![](./images/ex1_conf.png)
+
+Le script va ensuite afficher le SSID qui va être attaqué et l'adresse MAC de l'evil twin. Pour finir, l'attaque sera lancé.
+
+![](./images/ex1_attack.png)
+
+À l'aide de mon téléphone, on peut s'apercevoir que le wifi est correctement généré avec l'adresse MAC précédemment affichée.
+
+![](./images/ex1_wifi.jpg)
 
 ### 2. Détection de clients et réseaux
 
