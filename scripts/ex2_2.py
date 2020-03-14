@@ -7,23 +7,21 @@ entries = dict()
 BANNED_MAC_ADDRESS = ["ff:ff:ff:ff:ff:ff", "00:00:00:00:00:00"]
 
 def scan(packet):
-    addr1 = packet.addr1
-    addr2 = packet.addr2
-    addr3 = packet.addr3
+    addr1 = packet.addr1 #dest
+    addr2 = packet.addr2 #source
+    addr3 = packet.addr3 #bssid
 
-    if(addr3 is not None) and (addr3 not in BANNED_MAC_ADDRESS) and (addr3 not in entries):
-        print(addr3)
-        entries[addr3] = set()
+    if packet.type == 2:
+        if addr1 is not None and addr2 is not None and addr3 is not None and addr1 not in BANNED_MAC_ADDRESS:
 
-    if(addr3 is not None) and (addr3 not in BANNED_MAC_ADDRESS) and (addr1 not in BANNED_MAC_ADDRESS):
-        #On vérifie que la destination n'est pas le BSSID
-        if(addr1 != addr3):
-            entries[addr3].add(addr1)
-        #On vérifie que la source n'est pas le BSSID
-        elif(addr2 != addr3):
-            entries[addr3].add(addr2)
-        else:
-            print("Error")
+            # On vérifie si le bssid est déjà présent
+            if addr3 not in entries:
+                entries[addr3] = set()
+
+            if addr2 != addr3 :
+                entries[addr3].add(addr2)
+            else:
+                entries[addr3].add(addr1)
 
 
 def printResult():
