@@ -16,7 +16,7 @@ def attack(packet_ssid, interface):
         exit()
     frames = []
     ssid = packet_ssid.getlayer(Dot11).info.decode("utf-8")
-    print("Attacking SSID with the name %s", ssid)
+    print("Attacking SSID with the name %s" % ssid)
     print("Generating the frames....")
     # Generation des frames
     mac = "".join(c + ":" if i % 2 else c for i, c in enumerate(hex(get_mac())[2:].zfill(12)))[:-1]
