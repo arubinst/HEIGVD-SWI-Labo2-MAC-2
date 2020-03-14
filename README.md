@@ -53,13 +53,17 @@ Développer un script en Python/Scapy capable de detecter une STA cherchant un S
 
 Pour la détection du SSID, vous devez utiliser Scapy. Pour proposer un evil twin, vous pouvez récupérer votre code du labo 1 ou vous servir d'un outil existant.
 
-__Question__ : comment ça se fait que ces trames puissent être lues par tout le monde ? Ne serait-il pas plus judicieux de les chiffrer ?
+__Question__ : *comment ça se fait que ces trames puissent être lues par tout le monde ? Ne serait-il pas plus judicieux de les chiffrer ?*
 
 <p>Les probes peuvent être lues par tout le monde car celles-ci servent à activement découvrir des réseaux. Si celles-ci étaient chiffrées la découverte active du réseau ne serait lus possible à moins de distribuer les clefs à tous les AP. Ceci invaliderait le principe même du chiffrement des probes.</p>
 
 ---
 
-__Question__ : pourquoi les dispositifs iOS et Android récents ne peuvent-ils plus être tracés avec cette méthode ?
+__Question__ : *pourquoi les dispositifs iOS et Android récents ne peuvent-ils plus être tracés avec cette méthode ?*
+
+<p>Car ils "randomise" l'adresse MAC qu'ils inscrivent dans leur probes.</p>
+
+---
 
 
 ### 2. Détection de clients et réseaux
