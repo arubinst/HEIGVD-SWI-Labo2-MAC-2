@@ -79,7 +79,12 @@ Développer un script en Python/Scapy capable de reveler le SSID correspondant �
 
 __Question__ : expliquer en quelques mots la solution que vous avez trouvée pour ce problème ?
 
-__Réponse__ : Grâce aux mesures que nous avons effectuées, nous avons pu constater que les AP qui "cachent" leur ESSID continuent d'envoyer des beacons. La seule différence est qu'ils remplacent leur nom de wifi (ESSID) par une chaine de caractères de bytes null ('\x00'). Notre solution consite simplement à récupérer les beacons monitorés, parser le champs ESSID et contrôler s'il ne contient que des bytes null. Si c'est le cas, cela veut dire que nous avons à faire à un wifi "caché" et nous affichons donc son BSSID, la force du signal ainsi que le canal sur lequel il se trouve.
+__Réponse__ : Grâce aux mesures que nous avons effectuées, nous avons pu constater que les AP qui "cachent" leur ESSID continuent d'envoyer des beacons. La seule différence est qu'ils remplacent leur nom de wifi (ESSID) par une chaine de caractères de bytes null ('\x00'). Notre solution consite à :
+- Récupérer les beacons monitorés, parser le champs ESSID et contrôler s'il ne contient que des bytes null. Si c'est le cas, cela veut dire que nous avons à faire à un wifi "caché" et nous stockons ses données dans un dataframe.
+
+- Monitorer les *probes response* qui contiennent le ESSID. Si le BSSID correspondant se trouve dans notre dataframe, alors nous affichons le BSSID, ESSID ainsi que la force du signal de ce réseau caché.
+
+Note : Avec notre solution, il est obligatoire d'attendre qu'un client se connecte au wifi caché afin de pouvoir réccupérer le ESSID. Une autre solution serait de forcer ce processus en envoyant une trame de deauthentification sur un client connecté afin de tenter de récupérer un *probe response* de l'AP lors de la reconnexion au wifi.
 
 On peut voir sur le screen que la première fois personne ne s'est connecté sur le wifi caché. La deuxième fois, un utilisateur se connecte et on peut l'apercevoir : Palace1.
 ![Preuve hidden](images/hidden.png)
