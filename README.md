@@ -55,6 +55,8 @@ __Question__ : comment ça se fait que ces trames puissent être lues par tout l
 
 __Question__ : pourquoi les dispositifs iOS et Android récents ne peuvent-ils plus être tracés avec cette méthode ?
 
+Car l'adresse MAC de ces dispositifs n'est plus fixe mais définie aléatoirement.
+
 
 ### 2. Détection de clients et réseaux
 
