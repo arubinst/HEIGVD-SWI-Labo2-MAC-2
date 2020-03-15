@@ -30,11 +30,11 @@ L’une des informations de plus intéressantes et utiles que l’on peut obteni
 
 Dans ce type de trame, utilisée par les clients pour la recherche active de réseaux, on peut retrouver :
 
-* L’adresse physique (MAC) du client (sauf pour dispositifs iOS 8 ou plus récents et des versions plus récentes d'Android). 
+* L’adresse physique (MAC) du client (sauf pour dispositifs iOS 8 ou plus récents et des versions plus récentes d'Android).
 	* Utilisant l’adresse physique, on peut faire une hypothèse sur le constructeur du dispositif sans fils utilisé par la cible.
 	* Elle peut aussi être utilisée pour identifier la présence de ce même dispositif à des différents endroits géographiques où l’on fait des captures, même si le client ne se connecte pas à un réseau sans fils.
 * Des noms de réseaux (SSID) recherchés par le client.
-	* Un Probe Request peut être utilisé pour « tracer » les pas d’un client. Si une trame Probe Request annonce le nom du réseau d’un hôtel en particulier, par exemple, ceci est une bonne indication que le client s’est déjà connecté au dit réseau. 
+	* Un Probe Request peut être utilisé pour « tracer » les pas d’un client. Si une trame Probe Request annonce le nom du réseau d’un hôtel en particulier, par exemple, ceci est une bonne indication que le client s’est déjà connecté au dit réseau.
 	* Un Probe Request peut être utilisé pour proposer un réseau « evil twin » à la cible.
 
 Il peut être utile, pour des raisons entièrement légitimes et justifiables, de détecter si certains utilisateurs se trouvent dans les parages. Pensez, par exemple, au cas d'un incendie dans un bâtiment. On pourrait dresser une liste des dispositifs et la contraster avec les personnes qui ont déjà quitté le lieu.
@@ -46,10 +46,13 @@ A des fins plus discutables du point de vue éthique, la détection de client s'
 ### 1. Probe Request Evil Twin Attack
 
 Nous allons nous intéresser dans cet exercice à la création d'un evil twin pour viser une cible que l'on découvre dynamiquement utilisant des probes.
- 
+
 Développer un script en Python/Scapy capable de detecter une STA cherchant un SSID particulier - proposer un evil twin si le SSID est trouvé (i.e. McDonalds, Starbucks, etc.).
 
 Pour la détection du SSID, vous devez utiliser Scapy. Pour proposer un evil twin, vous pouvez récupérer votre code du labo 1 ou vous servir d'un outil existant.
+
+(Sources eviltwin: https://thecybersecurityman.com/2018/08/11/pentest-edition-creating-an-evil-twin-or-fake-access-point-using-aircrack-ng-and-dnsmasq-part-1-setup/)
+(Sources sniff SSID: https://gist.github.com/securitytube/5291959)
 
 __Question__ : comment ça se fait que ces trames puissent être lues par tout le monde ? Ne serait-il pas plus judicieux de les chiffrer ?
 
@@ -75,6 +78,8 @@ B8:17:C2:EB:8F:8F &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 08:EC:F5:28:1A:EF
 Développer un script en Python/Scapy capable de reveler le SSID correspondant à un réseau configuré comme étant "invisible".
 
 __Question__ : expliquer en quelques mots la solution que vous avez trouvée pour ce problème ?
+
+__Réponse__ : Grâce aux mesures que nous avons effectuées, nous avons pu constater que les AP qui "cachent" leur ESSID continuent d'envoyer des beacons. La seule différence est qu'ils remplacent leur nom de wifi (ESSID) par une chaine de caractères de bytes null ('\x00'). Notre solution consite simplement à récupérer les beacons monitorés, parser le champs ESSID et contrôler s'il ne contient que des bytes null. Si c'est le cas, cela veut dire que nous avons à faire à un wifi "caché" et nous affichons donc son BSSID, la force du signal ainsi que le canal sur lequel il se trouve.
 
 ## Livrables
 
