@@ -8,6 +8,7 @@
 
 #import socket
 from scapy.all import *
+from scapy.layers.dot11 import Dot11Beacon, Dot11ProbeResp
 
 interface = "wlan0mon"
 
@@ -17,17 +18,17 @@ uncovered_ssids_aps = set()
 # Source:   Scapy: Uncovering Hidden SSIDs
 #           https://www.youtube.com/watch?v=_OpmfE43AiQ
 
-def packetHandler(pck):
-    if packetToSniff.haslayer(Dot11Beacon):
+def packetHandler(pkt):
+    if pkt.haslayer(Dot11Beacon):
         # Dresser une liste des SSID disponibles à proximité       
         if not pkt.info :
             if pkt.addr3 not in hidden_ssids_aps :
                 hidden_ssids_aps.add(pkt.addr3)
-                print "HIDDEN SSID Network Found! BSSID: ", pkt.addr3
+                print("HIDDEN SSID Network Found! BSSID: ", pkt.addr3)
     elif pkt.haslayer(Dot11ProbeResp) and ( pkt.addr3 in hidden_ssids_aps ) :
         if pkt.addr3 not in uncovered_ssids_aps :
             uncovered_ssids_aps.add(pkt.addr3)
-            print "Uncovered HIDDEN SSID Network Found! ", pkt.info, pkt.addr3
+            print("Uncovered HIDDEN SSID Network Found! ", pkt.info, pkt.addr3)
 
 
 print('Liste des AP invisibles')
