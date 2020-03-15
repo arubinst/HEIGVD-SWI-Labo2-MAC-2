@@ -13,8 +13,24 @@
 
 Car lorsqu'ils cherche un Wifi auquel se connecter (probe request), l'adresse MAC de la frame est randomisée. Il n'est donc plus possible d'associer les probe requests à un device specifique.
 
+### Fonctionnement
+
+![](images/1-probes-evil.png)
+
+## 2. Détection de clients et réseaux
+
+### Fonctionnement
+
+![](images/2-probe-req.png)
+
+![](images/2-sta-per-ap.png)
+
 ## 3. Hidden SSID reveal
 
 > Expliquer en quelques mots la solution que vous avez trouvée pour ce problème.
 
 …
+
+### Fonctionnement
+
+![](images/3-evil-twin.png)
