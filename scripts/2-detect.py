@@ -12,12 +12,14 @@ args = parser.parse_args()
 def packet_handler(packet):
     dot11 = packet.getlayer(Dot11)
     ssid = packet[Dot11Elt].info
-    print('STA {} sent probe req for AP {} (ssid: {})'.format(dot11.addr2, dot11.addr1, ssid))
+    print('{}    {}    {}'.format(dot11.addr2, dot11.addr1, ssid.decode('utf-8')))
     # if ssid == b'':
     #     print(packet.show())
 
 
 print('Started sniffing on interface', args.interface)
+print('STA                  AP                   SSID')
+
 sniff(iface=args.interface,
       prn=packet_handler,
       lfilter=lambda p: p.haslayer(Dot11ProbeReq) and p[Dot11Elt].ID == 0,
