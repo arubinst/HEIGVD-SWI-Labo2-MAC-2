@@ -81,6 +81,9 @@ __Question__ : expliquer en quelques mots la solution que vous avez trouvée pou
 
 __Réponse__ : Grâce aux mesures que nous avons effectuées, nous avons pu constater que les AP qui "cachent" leur ESSID continuent d'envoyer des beacons. La seule différence est qu'ils remplacent leur nom de wifi (ESSID) par une chaine de caractères de bytes null ('\x00'). Notre solution consite simplement à récupérer les beacons monitorés, parser le champs ESSID et contrôler s'il ne contient que des bytes null. Si c'est le cas, cela veut dire que nous avons à faire à un wifi "caché" et nous affichons donc son BSSID, la force du signal ainsi que le canal sur lequel il se trouve.
 
+On peut voir sur le screen que la première fois personne ne s'est connecté sur le wifi caché. La deuxième fois, un utilisateur se connecte et on peut l'apercevoir : Palace1.
+![Preuve hidden](images/hidden.png)
+
 ## Livrables
 
 Un fork du repo original . Puis, un Pull Request contenant :
