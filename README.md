@@ -80,6 +80,8 @@ B8:17:C2:EB:8F:8F &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 08:EC:F5:28:1A:EF
 
 00:0E:35:C8:B8:66 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 08:EC:F5:28:1A:EF
 
+![](images/step2b.png)
+
 ### 3. Hidden SSID reveal
 
 Développer un script en Python/Scapy capable de reveler le SSID correspondant à un réseau configuré comme étant "invisible".
