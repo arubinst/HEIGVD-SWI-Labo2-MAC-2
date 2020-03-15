@@ -9,12 +9,10 @@ parser.add_argument("-i", "--interface", required=True, help='Interface to use f
 args = parser.parse_args()
 
 
-def packet_handler(packet):
-    dot11 = packet.getlayer(Dot11)
-    ssid = packet[Dot11Elt].info
-    print('{}    {}    {}'.format(dot11.addr2, dot11.addr1, ssid.decode('utf-8')))
-    # if ssid == b'':
-    #     print(packet.show())
+def packet_handler(p):
+    dot11 = p.getlayer(Dot11)
+    ssid = p[Dot11Elt][0].info
+    print('{}    {}    {}'.format(dot11.addr2, dot11.addr1, ssid))
 
 
 print('Started sniffing on interface', args.interface)
@@ -22,5 +20,5 @@ print('STA                  AP                   SSID')
 
 sniff(iface=args.interface,
       prn=packet_handler,
-      lfilter=lambda p: p.haslayer(Dot11ProbeReq) and p[Dot11Elt].ID == 0,
+      lfilter=lambda p: p.haslayer(Dot11ProbeReq),
       monitor=True)
