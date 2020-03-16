@@ -53,7 +53,7 @@ Pour la détection du SSID, vous devez utiliser Scapy. Pour proposer un evil twi
 
 __Question__ : comment ça se fait que ces trames puissent être lues par tout le monde ? Ne serait-il pas plus judicieux de les chiffrer ?
 
-Les probes request et les beacons ne sont pas chiffrées. Elle ne peuvent pas l'être car il faut que tout le monde puisse les voir même si les clés de chiffrement n'ont pas encore été échangées.
+Les probes request et les beacons ne sont pas chiffrées. Elle ne peuvent pas l'être car il faut que tout le monde puisse les voir même si les clés de chiffrement n'ont pas encore été échangées, effecivement la génération des différentes clés ne se fait qu'après la phase d'authentification et d'association entre une STA et l'AP.
 
 __Question__ : pourquoi les dispositifs iOS et Android récents ne peuvent-ils plus être tracés avec cette méthode ?
 
@@ -80,7 +80,7 @@ Développer un script en Python/Scapy capable de reveler le SSID correspondant �
 __Question__ : expliquer en quelques mots la solution que vous avez trouvée pour ce problème ?
 
 Un réseau invisible ne partage pas son SSID dans les beacons. Cependant on peut obtenir les MACs via ces mêmes beacons.
-Maintenant que l'on a une liste des APs cachées on peut écouter les messages d'une potentielle station se connectant sur le réseau en comparant la MAC. Ceci est possible car la station envoie SSID du réseau même s'il est caché.
+Maintenant que l'on a une liste des APs cachées on peut écouter les messages d'une potentielle station se connectant sur le réseau en comparant la MAC. Ceci est possible car la station envoie le SSID du réseau même s'il est caché.
 
 
 ## Livrables

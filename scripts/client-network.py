@@ -3,6 +3,7 @@ import time
 import threading
 import os
 
+# Access points dictionary with APs and connected STAs
 APs = dict()
 
 
@@ -31,6 +32,7 @@ def pkt_callback(packet):
         if is_broadcast(sn) or is_broadcast(rc):
             return
 
+        # Wheter it is an ap sender or an ap receiver
         if sn in APs:
             APs[sn]["STA"].add(rc)
         elif rc in APs:

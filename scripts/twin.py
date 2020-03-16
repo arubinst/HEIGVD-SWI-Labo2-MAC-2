@@ -23,19 +23,8 @@ def change_channel(stop):
 		ch = ch % 14 + 1
 		time.sleep(0.1)
 
-
 		if stop():
 			break
-
-
-# Advertise an AP 
-def advertise_ap(ssid):
-	# Create a beacon
-	p = RadioTap() / Dot11(type=0, subtype=8, addr1="ff:ff:ff:ff:ff:ff", addr3=RandMAC()) / Dot11Beacon() / Dot11Elt(ID="SSID", info=ssid, len=len(ssid))
-	print(f"\nCreating new network {ssid}")
-	#print("Press <ctrl + C> to stop attack")
-	sendp(p, inter=0.000000000002, iface=iface, loop=1)
-
 
 # Called when sniff receive a packet
 def callback(packet):
@@ -55,7 +44,6 @@ def advertise_ap(ssid):
 	# Create a beacon
 	p = RadioTap() / Dot11(type=0, subtype=8, addr1="ff:ff:ff:ff:ff:ff", addr3=RandMAC()) / Dot11Beacon() / Dot11Elt(ID="SSID", info=ssid, len=len(ssid))
 	print(f"\nCreating new network {ssid}")
-	#print("Press <ctrl + C> to stop attack")
 	sendp(p, inter=0.000000000002, iface=iface, loop=1)
 
 
@@ -87,14 +75,10 @@ else:
 
 # Run a thread for each ssid
 for SSID in SSIDs:
-	
 	aa = Thread(target=advertise_ap, args=(SSID,))
 	aa.daemon = True
 	aa.start()
 
 
 input("Press any key to exit")
-
-
-
 stop_threads = True
