@@ -5,10 +5,10 @@
 # - https://www.thepythoncode.com/article/create-fake-access-points-scapy
 
 from scapy.all import *
-from scapy.layers.dot11 import Dot11Beacon, Dot11Elt, Dot11, RadioTap, Dot11ProbeReq
+from scapy.layers.dot11 import Dot11Elt, Dot11ProbeReq
 from scapy.sendrecv import sniff
 
-iface = "wlp0s20u1"
+iface = "en0"
 target_ssid = ""
 
 if len(sys.argv) == 2: # Demand number of fake SSID
@@ -20,16 +20,19 @@ else: # Reading file spliting every '\n'
 sta_list = []
 
 def PacketHandler(packet):
+    # Capture only PrebeRequest with ssid filter and not in the array
     if Dot11ProbeReq in packet \
-            and Dot11Elt in packet[Dot11ProbeReq] :
-        #packet.show()
-        if packet[Dot11ProbeReq][Dot11Elt].ID == 0 \
+            and Dot11Elt in packet[Dot11ProbeReq]\
+            and packet[Dot11ProbeReq][Dot11Elt].ID == 0 \
             and packet.info.decode('utf-8') == target_ssid \
             and packet.addr2 not in sta_list:
             try:
                 sta = packet.addr2
                 ssid_wanted = packet.info
                 intensity = packet.dBm_AntSignal
+
+                # Store for remove duplicate
+
                 sta_list.append(sta)
                 print("=== Target #%d ===\nsta: %s, ssid wanted: %s, intensity: %d dBm" % (
                     len(sta_list), sta, ssid_wanted, intensity))
