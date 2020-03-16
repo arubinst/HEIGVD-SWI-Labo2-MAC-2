@@ -18,15 +18,15 @@
 
 import sys
 from scapy.all import *
-
-interface = "wlan0mon"
-
-def packetHandler(pkt):
-    #TODO
+import argparse
 
 
-# On sniffe en passant en fonction de callback la fonction packetHandler
-sniff(count=300, iface=interface, prn=packetHandler)
+# Arguments
+parser = argparse.ArgumentParser(description="Script capable de générer une liste d'AP visibles et detecter les STAs connectées à cet AP")
+parser.add_argument("-i", "--interface", required=True, help=" interface d'écoute")
 
+arguments = parser.parse_args()
 
- 
+def handlePacket(packet):
+
+  
