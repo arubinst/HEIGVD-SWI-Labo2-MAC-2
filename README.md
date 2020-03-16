@@ -5,14 +5,29 @@
 ### 1. Probe Request Evil Twin Attack
 
 Nous allons nous intéresser dans cet exercice à la création d'un evil twin pour viser une cible que l'on découvre dynamiquement utilisant des probes.
- 
+
 Développer un script en Python/Scapy capable de detecter une STA cherchant un SSID particulier - proposer un evil twin si le SSID est trouvé (i.e. McDonalds, Starbucks, etc.).
 
 Pour la détection du SSID, vous devez utiliser Scapy. Pour proposer un evil twin, vous pouvez récupérer votre code du labo 1 ou vous servir d'un outil existant.
 
+```bash
+root@kali:~/PycharmProjects/SWI_Labo1# python SWI-Lab-02-Prob-Request-Evil-Tween-Attack.py -s Lio
+In progress...
+No SSID Lio Found
+
+```
+
+Dû au manque de matériels et aux conditions, il n'a pas été possible de correctement tester le script. Mais son exécution doit être correcte.
+
 __Question__ : comment ça se fait que ces trames puissent être lues par tout le monde ? Ne serait-il pas plus judicieux de les chiffrer ?
 
+Les informations contenues dans ces trames doivent être en clair, car pour que la STA et l'AP puissent s'appareiller, il faut échanger quelques paramètres avant de pouvoir chiffrer les communications. 
+
 __Question__ : pourquoi les dispositifs iOS et Android récents ne peuvent-ils plus être tracés avec cette méthode ?
+
+Une nouvelle technique permet de "randomniser"  l'adresse MAC et donc il n'est plus possible de les tracer.
+
+soucre : https://connect.ed-diamond.com/MISC/MISC-096/MAC-Address-Randomization-tour-d-horizon
 
 
 ### 2. Détection de clients et réseaux
