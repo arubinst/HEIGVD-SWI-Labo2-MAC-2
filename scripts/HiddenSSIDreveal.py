@@ -17,13 +17,20 @@ if len(sys.argv) != 2:
 
 
 def PacketHandler(pkt):
-    if pkt.haslayer(Dot11Beacon):
-        if not pkt.info:
+
+    # To get the ssid we check the prob response and check that the address is on our array
+    if (pkt.haslayer(Dot11ProbeResp) ) and ( pkt.addr3 in hidden_ssid_aps ):
+        print ("HIDDEN SSID Uncovered:" + str(pkt.info) + " " + str(pkt.addr3))
+
+    # if it's a beacon
+    elif pkt.haslayer(Dot11Beacon):
+        # if we don't have the SSID
+        if len(pkt.info.decode()) == 0:
+            print("pkt.addr3" + pkt.addr3)
+            # get the address if not in the array hidden_ssid_aps
             if pkt.addr3 not in hidden_ssid_aps:
                 hidden_ssid_aps.add(pkt.addr3)
                 print ("HIDDEN BSSID: " + pkt.addr3)
-    elif pkt.haslayer(Dot11ProbeResp) and ( pkt.addr3 in hidden_ssid_aps ):
-        print ("HIDDEN SSID Uncovered:" + str(pkt.info) + " " + str(pkt.addr3))
 
-
-sniff(iface = sys.argv[1], prn = PacketHandler)
+if __name__ == "__main__":
+    sniff(iface = sys.argv[1], prn = PacketHandler)
