@@ -64,7 +64,7 @@ channel_changer.start()
 
 
 # Sniff wifi packets for x seconds
-SNIFF_DURATION = 30
+SNIFF_DURATION = 600
 print(f"Sniffing for {SNIFF_DURATION} seconds...")
 sniff(prn=callback, iface=iface, timeout=SNIFF_DURATION)
 
