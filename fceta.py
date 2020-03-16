@@ -27,18 +27,21 @@ def inputNumber(message, imin, imax):
             break
 
 def PacketHandler(packet):
-    if Dot11ProbeResp in packet and Dot11Elt in packet[Dot11ProbeResp] and packet[Dot11ProbeResp][Dot11Elt].ID == 0 and packet.info not in ap_list:
-        try:
-            intensity = packet.dBm_AntSignal
-            ssid = packet.info
-            channel = int(ord(packet[Dot11Elt:3].info))
-            ap_list.append(ssid)
-            ap_ssidToChannel[ssid] = int(channel)
-            print("=== Target #%d ===\nssid: %s\nchannel: %s\nintensity: %d dBm" % (
-                len(ap_list), ssid.decode("utf-8"), str(channel), intensity))
-        except Exception as e:
-            print(e)
-            return
+    if Dot11ProbeReq in packet and Dot11Elt in packet[Dot11ProbeReq] and packet[Dot11ProbeReq][Dot11Elt].ID == 0 and packet.info not in ap_list:
+            try:
+                intensity = packet.dBm_AntSignal
+                ssid = packet.info
+                try:
+                    channel = int(ord(pkt[Dot11Elt:3].info))
+                except:
+                    channel = 0
+                ap_list.append(ssid)
+                ap_ssidToChannel[ssid] = int(channel)
+                print("=== Target #%d ===\nssid: %s\nchannel: %s\nintensity: %d dBm" % (
+                    len(ap_list), ssid.decode("utf-8"), str(channel), intensity))
+            except Exception as e:
+                print(e)
+                return
 
 # Sniff phase
 print("Press CTRL+C whenever you're happy with the SSIDs list.")

