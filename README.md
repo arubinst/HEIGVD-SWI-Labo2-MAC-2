@@ -46,19 +46,29 @@ A des fins plus discutables du point de vue éthique, la détection de client s'
 ### 1. Probe Request Evil Twin Attack
 
 Nous allons nous intéresser dans cet exercice à la création d'un evil twin pour viser une cible que l'on découvre dynamiquement utilisant des probes.
- 
+
 Développer un script en Python/Scapy capable de detecter une STA cherchant un SSID particulier - proposer un evil twin si le SSID est trouvé (i.e. McDonalds, Starbucks, etc.).
 
 Pour la détection du SSID, vous devez utiliser Scapy. Pour proposer un evil twin, vous pouvez récupérer votre code du labo 1 ou vous servir d'un outil existant.
 
 __Question__ : comment ça se fait que ces trames puissent être lues par tout le monde ? Ne serait-il pas plus judicieux de les chiffrer ?
 
+- Les APs doivent pouvoir répondre aux probe request. De ce fait, il faut que tous les APs puissent lire ces trames pour que cela fonctionne correctement.
+
 __Question__ : pourquoi les dispositifs iOS et Android récents ne peuvent-ils plus être tracés avec cette méthode ?
 
+- Les adresses MAC sont randomisées à chaque nouvelle connexion à un AP.
+  - Source : https://source.android.com/devices/tech/connect/wifi-mac-randomization#:~:text=Starting%20in%20Android%208.0%2C%20Android,to%20a%20Wi%2DFi%20network
+
+![](./images/ex1-1.png)
+
+![](./images/ex1-2.png)
 
 ### 2. Détection de clients et réseaux
 
 a) Développer un script en Python/Scapy capable de lister toutes les STA qui cherchent activement un SSID donné
+
+![](./images/ex2-1.png)
 
 b) Développer un script en Python/Scapy capable de générer une liste d'AP visibles dans la salle et de STA détectés et déterminer quelle STA est associée à quel AP. Par exemple :
 
@@ -70,11 +80,19 @@ B8:17:C2:EB:8F:8F &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 08:EC:F5:28:1A:EF
 
 00:0E:35:C8:B8:66 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 08:EC:F5:28:1A:EF
 
+Fonctionnement :
+
+![](./images/ex2-2.png)
+
 ### 3. Hidden SSID reveal
 
 Développer un script en Python/Scapy capable de reveler le SSID correspondant à un réseau configuré comme étant "invisible".
 
 __Question__ : expliquer en quelques mots la solution que vous avez trouvée pour ce problème ?
+
+- Nous récupérons la probe response de l'AP lorsque qu'un client essaie de se connecter. Nous lisons ensuite le packet afin de trouver le SSID du wifi
+
+![](./images/ex3.png)
 
 ## Livrables
 
