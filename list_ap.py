@@ -22,6 +22,7 @@ class Sniffer(Thread):
 
         self.interface = interface
         self.stop_sniffer = Event()
+        self.sta_list = []
 
     # lorsque on recoit un 'join', on set l'événement ce qui permettra de stopper
     # le thread lorsque il verifira le status de l'événement
@@ -35,13 +36,13 @@ class Sniffer(Thread):
 
     # On affiche l'AP qui a été trouvé
     def print_ap_found(self, addr):
-        print("Cliend addr {addr}".format(addr=addr))
+        print("Client addr {addr}".format(addr=addr))
 
     # On verifie que le packet est un probe request puis on regarde que son ssid
     # soit le même que celui que l'on cherche
     def find_ssid_searched(self, packet):
-        if  packet.haslayer(Dot11ProbeReq) and packet.info.decode("utf-8") == args.ssid:
-
+        if  packet.haslayer(Dot11ProbeReq) and packet.info.decode("utf-8") == args.ssid and packet.addr1 not in self.sta_list:
+            self.sta_list.append(packet.addr1)
             # On affiche le client
             self.print_ap_found(packet.addr2)
 

