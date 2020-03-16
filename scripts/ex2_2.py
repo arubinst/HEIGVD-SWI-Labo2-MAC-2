@@ -18,7 +18,6 @@ def scan(packet):
     # On vérifie que le packet est bien de type DATA
     if packet.type == 2:
         if addr1 is not None and addr2 is not None and addr3 is not None and addr1 not in BANNED_MAC_ADDRESS:
-            print(addr1 +" "+  addr2 + " " + addr3)
             # On vérifie si le bssid est déjà présent, si non, on ajoute une netrée dans notre dictionnaire
 
             if addr3 not in entries:
