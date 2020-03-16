@@ -29,9 +29,8 @@ Car lorsqu'ils cherche un Wifi auquel se connecter (probe request), l'adresse MA
 
 > Expliquer en quelques mots la solution que vous avez trouvée pour ce problème.
 
-Nous commençons par enregistrer les SSID qui émettent des beacons sans y indiquer les BSSIDs, cela nous indiques les Wifis cachés.
-En même temps on récupères les trames de Probe response car c'est là que les Wifis indiquent leurs noms aux appareils qui le recherchent.
+Nous commençons par enregistrer les BSSID qui émettent des beacons sans y indiquer un SSID spécifique, cela nous indique les Wifis cachés. En même temps, on récupère les trames *probe response* car c'est là que les Wifis indiquent leur SSID aux appareils qui le recherchent (c'est-à-dire qui ont envoyé une trame *probe request*). On fait ensuite correspondre le SSID trouvé dans les *probe response* aux beacons via l'adresse BSSID.
 
 ### Fonctionnement
 
-![](images/3-evil-twin.png)
+![](images/3-hidden.png)
