@@ -58,7 +58,7 @@ Il suffit de lancer le script en spécifiant l'interface et le temps souhaité p
 Notre solution fonctionne en deux temps:
 
 - En premier, lors du scan, si on capte des *Beacon* de réseau wifis cachés, on stocke le BSSID dans un tableau. 
-- Si on capte un probe response, envoyé lorsque un client se connecte, d'un des wifis dont le BSSID est dans le tableau, on stocke lit le nom et le stocke dans le tableau en le faisant correspondre au BSSID.
+- Si on capte un probe response d'un des wifis dont le BSSID est dans le tableau, on stocke lit le nom et le stocke dans le tableau en le faisant correspondre au BSSID.
 
 #### 3.2 Fonctionnement du script
 
