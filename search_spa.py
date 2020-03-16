@@ -8,7 +8,7 @@ from scapy.all import *
 from scapy.layers.dot11 import Dot11Elt, Dot11ProbeReq
 from scapy.sendrecv import sniff
 
-iface = "en0"
+iface = "wlp0s20u1"
 target_ssid = ""
 
 if len(sys.argv) == 2: # Demand number of fake SSID
