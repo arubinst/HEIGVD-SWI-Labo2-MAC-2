@@ -52,9 +52,6 @@ Développer un script en Python/Scapy capable de detecter une STA cherchant un S
 
 Pour la détection du SSID, vous devez utiliser Scapy. Pour proposer un evil twin, vous pouvez récupérer votre code du labo 1 ou vous servir d'un outil existant.
 
-(Sources eviltwin: https://thecybersecurityman.com/2018/08/11/pentest-edition-creating-an-evil-twin-or-fake-access-point-using-aircrack-ng-and-dnsmasq-part-1-setup/)
-(Sources sniff SSID: https://gist.github.com/securitytube/5291959)
-
 ![preuve evil twin](images/probe_evil_twin.png)
 
 On peut voir que le channel est différent entre les deux trames quand on passe comme argument le wifi Palace :  
