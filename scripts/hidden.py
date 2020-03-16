@@ -4,7 +4,7 @@ import threading
 import os
 
 
-HiddenBSSIDs = dict()
+HiddenBSSIDs = set()
 
 # Let user select network interface to perform attack
 while(True): 
@@ -36,20 +36,21 @@ def callback(packet):
 		SSID = packet[Dot11Elt].info
 		BSSID = packet.addr3
 
-		stats = packet[Dot11Beacon].network_stats()
-		# get the channel of the AP
-		channel = stats.get("channel")
-
 		print(".", end="", flush=True)
 
-
 		if SSID == "" or packet[Dot11Elt].ID != 0:
-			print("Yolo")
-			HiddenBSSIDs[BSSID] = (channel)
+			HiddenBSSIDs.add(BSSID)
 
 
 def client_callback(packet):
-	# Client connect to with beacon handler !!!!!
+	if packet.haslayer(Dot11ProbeReq):
+		# extract the SSID address of the network
+		probeReq = packet[Dot11ProbeReq]
+		SSID = probeReq.info.decode("utf-8")
+
+		if packet.addr3 in HiddenBSSIDs:
+			print(f"Hidden network SSID found {SSID}({packet.addr3})")
+
 	
 
 
@@ -63,23 +64,20 @@ channel_changer.start()
 
 
 # Sniff wifi packets for x seconds
-SNIFF_DURATION = 600
+SNIFF_DURATION = 30
 print(f"Sniffing for {SNIFF_DURATION} seconds...")
 sniff(prn=callback, iface=iface, timeout=SNIFF_DURATION)
-
-# We don't need to switch channel anymore
-stop_threads = True
 
 
 
 # Display found SSIDs
 if len(HiddenBSSIDs) > 0:
-    print(f"\n{len(HiddenBSSIDs)} hidden BSSIDs found")
+	print(f"\n{len(HiddenBSSIDs)} hidden BSSIDs found")
 
-	print(f"BSSID - channel")
+	print(f"BSSID")
 
-    for BSSID in HiddenBSSIDs:
-        print(f"\t{BSSID} - {HiddenBSSIDs[BSSID]}")
+	for BSSID in HiddenBSSIDs:
+		print(f"\t{BSSID}")
 else:
     print("\n No hidden BSSIDs found")
     exit()
@@ -88,21 +86,18 @@ else:
 
 ch = 1
 
-# Let user select the network current channel
-while(True): # Emulating do while in python
-	ch = int(input("Select channel of the network to attack [1 - 14] : "))
-
-	if(ch <= 14 and ch >= 1):
-		os.system(f"iwconfig {iface} channel {ch}")
-		break
 
 
-
-print(f"Sniff on channel {ch} for STA connecting to hidden AP")
+print(f"Sniffing for STA connecting to hidden AP")
 sniff(prn=client_callback, iface=iface)
 
 
 input("Press any key to exit")
+
+
+# We don't need to switch channel anymore
+stop_threads = True
+
 
 
 

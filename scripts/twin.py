@@ -40,7 +40,7 @@ def advertise_ap(ssid):
 # Called when sniff receive a packet
 def callback(packet):
     if packet.haslayer(Dot11ProbeReq):
-        # extract the MAC address of the network
+        # extract the SSID address of the network
         probeReq = packet[Dot11ProbeReq]
         SSID = probeReq.info.decode("utf-8")
 
