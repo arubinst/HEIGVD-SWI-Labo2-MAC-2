@@ -17,7 +17,7 @@ def pkt_callback(packet):
         bssid = packet.getlayer(Dot11).addr2.upper()
         if bssid not in APs:
             ssid = packet[Dot11Elt].info.decode()
-            APs[bss] = {
+            APs[bssid] = {
                 "SSID": ssid,
                 "STA": set() # A list of associated stations
             }
@@ -57,7 +57,7 @@ def print_all(stop):
 
         for MAC in cpAPs:
             ssid = cpAPs[MAC]["SSID"]
-            print(f"{ssid} - {MAC}")
+            print(f"{MAC} {ssid}")
 
             for STA in cpAPs[MAC]["STA"]:
                 print(f"\t{STA}")
