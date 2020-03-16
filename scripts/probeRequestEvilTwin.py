@@ -36,15 +36,14 @@ def callback(packet):
         ssid = packet[Dot11Elt].info.decode()
         # if the ssid correspond to the one targeted 
         if(ssid == args.SSID):
-            networksBeacon.loc[bssid] = (ssid, packet)        
+            networksBeacon.loc[bssid] = (ssid, packet)      
 
     if packet.haslayer(Dot11ProbeReq):
         # extract the STA address of the network
         mac = str(packet.addr2)
         ssid = packet.info.decode()                             
         if (ssid == args.SSID):
-            networks.loc[mac] = (str(args.SSID))
-    
+            networks.loc[mac] = (str(args.SSID))    
 
 def change_channel():
     ch = 1

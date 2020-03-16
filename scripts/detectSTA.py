@@ -19,25 +19,19 @@ parser.add_argument("-SSID", required=True, help="SSID you are looking for")
 args = parser.parse_args()
 
 
-# initialize the networks dataframe that will contain all access points nearby
+# initialize the networks dataframe that will contain all STA nearby that are looking for a specific SSID
 networks = pandas.DataFrame(columns=["STA MAC", "searched SSID"])
 
-# set the index BSSID (MAC address of the AP) for dataFrame
+# set the index STA MAC (MAC address of the STA) for dataFrame
 networks.set_index("STA MAC", inplace=True)
 
 def callback(packet):
     if packet.haslayer(Dot11ProbeReq):
-        # extract the STA address of the network
+        # extract the STA MAC address of the network
         mac = str(packet.addr2)
         ssid = packet.info.decode()                             
         if (ssid == args.SSID):
         	networks.loc[mac] = (str(args.SSID))
-        
-        # extract network stats
-        #stats = packet[Dot11ProbeResp].network_stats()
-        # get the channel of the AP
-        #channel = stats.get("channel")
-        # insert only hidden SSID in table
 
 def change_channel():
     ch = 1

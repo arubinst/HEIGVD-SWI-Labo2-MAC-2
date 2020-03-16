@@ -16,7 +16,7 @@ parser.add_argument("-s", "--Second", required=True, help="Number of second you 
 args = parser.parse_args()
 
 
-# initialize the networks dataframe that will contain all access points nearby
+# initialize the networks dataframe that will contain all hidden access points nearby
 networks = pandas.DataFrame(columns=["BSSID", "SSID", "dBm_Signal", "Channel"])
 
 # set the index BSSID (MAC address of the AP) for dataFrame

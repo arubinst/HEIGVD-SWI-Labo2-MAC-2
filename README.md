@@ -44,7 +44,7 @@ A des fins plus discutables du point de vue éthique, la détection de client s'
 ## Travail à réaliser
 
 ### 1. Probe Request Evil Twin Attack
-script : probeRequestEvilTwin.py
+**script : probeRequestEvilTwin.py**
 
 Nous allons nous intéresser dans cet exercice à la création d'un evil twin pour viser une cible que l'on découvre dynamiquement utilisant des probes.
 
@@ -63,16 +63,17 @@ On peut voir que le channel est différent entre les deux trames quand on passe 
 
 __Question__ : comment ça se fait que ces trames puissent être lues par tout le monde ? Ne serait-il pas plus judicieux de les chiffrer ?
 
-Cela ne peut pas être chiffré car justement c'est avant l'établissement de la communication et donc avant l'échange de clef.
+Les trames de managements ne sont par défaut pas chiffrées et ne pourraient pas l'être car elles servent, entre autres, à l'établissement (authentification, association) de la communication entre les STA et les AP.
 
 __Question__ : pourquoi les dispositifs iOS et Android récents ne peuvent-ils plus être tracés avec cette méthode ?
 
-Depuis récemment, les addresses MAC des appareils iOS et Android sont aléatoires pendant le scanning passive de wifi. Cela veut dire que l'on ne peut plus nous tracker.
+Dans leurs dernières versions, les addresses MAC des appareils iOS et Android peuvent être générées aléatoirement pendant le scanning passive de wifi, c'est à dire lorsqu'un appareil émet des probes indiquant ses réseaux "connus". Grâce à cela, il est plus difficile de tracker un appareil mobile.
 
 ### 2. Détection de clients et réseaux
 
-a) Développer un script en Python/Scapy capable de lister toutes les STA qui cherchent activement un SSID donné
-script : detectSTA.py
+a) Développer un script en Python/Scapy capable de lister toutes les STA qui cherchent activement un SSID donné.
+
+**script : detectSTA.py**
 
 ![Preuve detection](images/detectclient_a.png)
 
@@ -88,13 +89,14 @@ B8:17:C2:EB:8F:8F &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 08:EC:F5:28:1A:EF
 
 00:0E:35:C8:B8:66 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 08:EC:F5:28:1A:EF
 
-script: associatedDevice.py
-On peut voir tous les sta et ap qui communique : 
+**script: associatedDevice.py**
 
-![preuve communication](images/sta_connected_to.png) 
+On peut voir tous les sta et ap qui communique :
+
+![preuve communication](images/sta_connected_to.png)
 
 ### 3. Hidden SSID reveal
-script : hiddenSSIDRevealer.py
+**script : hiddenSSIDRevealer.py**
 
 Développer un script en Python/Scapy capable de reveler le SSID correspondant à un réseau configuré comme étant "invisible".
 
