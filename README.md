@@ -1,26 +1,10 @@
-[Livrables](#livrables)
-
-[Échéance](#échéance)
-
-[Introduction](#introduction)
-
-[Travail à réaliser](#travail-à-réaliser)
-
-- [Sécurité des réseaux sans fil](#s%c3%a9curit%c3%a9-des-r%c3%a9seaux-sans-fil)
-  - [Laboratoire 802.11 MAC 2](#laboratoire-80211-mac-2)
-  - [Introduction](#introduction)
-  - [Travail à réaliser](#travail-%c3%a0-r%c3%a9aliser)
-    - [1. Probe Request Evil Twin Attack](#1-probe-request-evil-twin-attack)
-    - [2. Détection de clients et réseaux](#2-d%c3%a9tection-de-clients-et-r%c3%a9seaux)
-    - [3. Hidden SSID reveal](#3-hidden-ssid-reveal)
-  - [Livrables](#livrables)
-  - [Échéance](#%c3%89ch%c3%a9ance)
-
 # Sécurité des réseaux sans fil
 
 ## Laboratoire 802.11 MAC 2
 
 __A faire en équipes de deux personnes__
+
+[TOC]
 
 ## Introduction
 
@@ -53,19 +37,15 @@ Pour la détection du SSID, vous devez utiliser Scapy. Pour proposer un evil twi
 
 ![](images\evil1.png)
 
-Lors de cette capture nous cherchions le _SSID_ équivalent à _Oblivion_v2_ à l'aide de notre script. Sur la capture nous pouvons remarquer que dès le moment ou il y a eu un _Probe Request_ notre script inonde le réseau avec des _Probe Response_ ayant le même SSID.
+> Lors de cette capture, nous cherchions le _SSID_ équivalent à _Oblivion_v2_ à l'aide de notre script. Nous pouvons remarquer que dès l'instant où une _Probe Request_ a été envoyée par une STA, notre script inonde le réseau avec des _Probe Responses_ ayant le même SSID.
 
 __Question__ : comment ça se fait que ces trames puissent être lues par tout le monde ? Ne serait-il pas plus judicieux de les chiffrer ?
 
----
-
-> 
-
----
+> Contrairement au trafic de données confidentiel, ce qu'on appelle les management frames (authentification, de-authentification, association, dissociation, beacons et probes) sont utilisées par les clients pour initier et terminer des sessions, et requièrent donc de pouvoir être lues et comprises par tous les devices. Si elles ne peuvent pas demeurer confidentielles, elles peuvent cependant être protégée dans leur intégrité.
 
 __Question__ : pourquoi les dispositifs iOS et Android récents ne peuvent-ils plus être tracés avec cette méthode ?
 
-> Car les nouveaux appareil utilisent des adresses MAC aléatoire afin d'éviter de pouvoir être tracé.
+> Car les nouveaux appareils utilisent des adresses MAC aléatoires afin d'éviter de pouvoir être tracés.
 
 
 ### 2. Détection de clients et réseaux
@@ -76,11 +56,11 @@ a) Développer un script en Python/Scapy capable de lister toutes les STA qui ch
 
 ![](images\list_ap_script.png)
 
-Nous avions choisi le SSID _Oblivion_v2_ comme SSID cible. Nous pouvons voir que sur la capture wireshark ci-dessus nous avons eu des demandes de deux STA différentes pour le SSID _Oblivion_v2_. Ces deux clients sont aussi listé par notre script.
-
-```bash
-$ python3 list_ap.py -i wlan0mon -s <SSID cible>
-```
+> Nous avions choisi le SSID _Oblivion_v2_ comme SSID cible. Nous pouvons voir que sur la capture wireshark ci-dessus nous avons eu des demandes de deux STA différentes pour le SSID _Oblivion_v2_. Ces deux clients sont aussi listé par notre script.
+>
+> ```bash
+> $ python3 list_ap.py -i wlan0mon -s <SSID cible>
+> ```
 
 
 
@@ -106,11 +86,11 @@ $ python3 list_sta_ap.py -i wlan0mon
 
 Développer un script en Python/Scapy capable de reveler le SSID correspondant à un réseau configuré comme étant "invisible".
 
-
-
 __Question__ : expliquer en quelques mots la solution que vous avez trouvée pour ce problème ?
 
-> Dans un premier temps nous avons enregistré les adresses des réseaux qui étaient vide. Puis lorsque une personne va se connecter sur le réseau caché elle va devoir faire un _ProbeRequest_. Dès ce moment nous allons pouvoir lier le nom qui était dans la requête avec l'adresse que nous avions précédemment enregistré.
+> Dans un premier temps, nous avons enregistré les adresses des réseaux qui étaient vide. 
+>
+> Puis, lorsqu'une personne souhaite se connecter sur le réseau caché, il est nécessaire qu'elle envoie une _Probe Request_. Dès ce moment, nous allons pouvoir lier le nom présent dans la requête avec l'adresse que nous avions précédemment enregistrée.
 
 ## Livrables
 
