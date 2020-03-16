@@ -41,7 +41,9 @@ Pour la détection du SSID, vous devez utiliser Scapy. Pour proposer un evil twi
 
 __Question__ : comment ça se fait que ces trames puissent être lues par tout le monde ? Ne serait-il pas plus judicieux de les chiffrer ?
 
-> Contrairement au trafic de données confidentiel, ce qu'on appelle les management frames (authentification, de-authentification, association, dissociation, beacons et probes) sont utilisées par les clients pour initier et terminer des sessions, et requièrent donc de pouvoir être lues et comprises par tous les devices. Si elles ne peuvent pas demeurer confidentielles, elles peuvent cependant être protégée dans leur intégrité.
+> Contrairement au trafic de données confidentiel, ce qu'on appelle les management frames (authentification, de-authentification, association, dissociation, beacons et probes) sont utilisées par les clients pour initier et terminer des sessions, et requièrent donc de pouvoir être lues et comprises par tous les devices. Si elles étaient chiffrées, ces trames ne pourraient pas être comprises par les autres devices.
+>
+> Si elles ne peuvent pas demeurer confidentielles, elles peuvent cependant être protégée dans leur intégrité.
 
 __Question__ : pourquoi les dispositifs iOS et Android récents ne peuvent-ils plus être tracés avec cette méthode ?
 
