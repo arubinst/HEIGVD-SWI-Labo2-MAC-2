@@ -1,7 +1,8 @@
-# Laboratoire 2 - Listage des STA cherchant un SSID donné
+# Laboratoire 2 - Listage des STA en cherchant un SSID donné
 # usage: python3 list_ap.py -i wlan0mon -s freewifi
 #
 # Caroline monthoux - Rémi Poulard
+
 from scapy.all import *
 from threading import Thread, Event
 from time import sleep
@@ -15,7 +16,7 @@ parser.add_argument("-s", "--ssid", required=True, help="The interface that you 
 args = parser.parse_args()
 
 
-# Class qui implemente un thread et qui nous permet de sniffer en continue
+# Classe qui implémente un thread et qui nous permet de sniffer en continu
 class Sniffer(Thread):
     def  __init__(self, interface="wlan0mon"):
         super().__init__()
@@ -23,13 +24,13 @@ class Sniffer(Thread):
         self.interface = interface
         self.stop_sniffer = Event()
 
-    # lorsque on recoit un 'join', on set l'événement ce qui permettra de stopper
-    # le thread lorsque il verifira le status de l'événement
+    # lorsque l'on reçoit un 'join', on set l'événement qui permettra de stopper
+    # le thread lorsqu'il vérifiera le statut de l'événement
     def join(self, timeout=None):
         self.stop_sniffer.set()
         super().join(timeout)
 
-    # Est-ce que l'événement est set ou pas. S'il est set nous retournons true
+    # Regarde si l'événement est set ou pas. S'il l'est, nous retournons true
     def should_stop_sniffer(self, packet):
         return self.stop_sniffer.isSet()
 
@@ -37,10 +38,10 @@ class Sniffer(Thread):
     def print_ap_found(self, addr):
         print("Cliend addr {addr}".format(addr=addr))
 
-    # On verifie que le packet est un probe request puis on regarde que son ssid
+    # On vérifie que le packet est un probe request, puis on vérifie que son SSID
     # soit le même que celui que l'on cherche
     def find_ssid_searched(self, packet):
-        if  packet.haslayer(Dot11ProbeReq) and packet.info.decode("utf-8") == args.ssid:
+        if packet.haslayer(Dot11ProbeReq) and packet.info.decode("utf-8") == args.ssid:
 
             # On affiche le client
             self.print_ap_found(packet.addr2)
@@ -55,8 +56,7 @@ sniffer = Sniffer()
 print("[*] Start sniffing...")
 sniffer.start()
 
-# Ce thread attends que l'utilisateur fasse un controle+C pour ordonner à l'autre 
-# thread de s'arreter.
+# Ce thread attend que l'utilisateur fasse un contrôle+C pour ordonner à l'autre thread de s'arrêter.
 try:
     while True:
         pass
