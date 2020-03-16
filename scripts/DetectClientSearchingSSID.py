@@ -31,10 +31,9 @@ def packetHandler(packet):
             adr  = copiedPacket.addr2
             if((ssid == arguments.ssid) and (adr not in stations)):
                 stations.append(adr)
-              print(adr)
+                print(adr)
 
 print("STAs recherchant le ssid " + arguments.ssid + " : \n")
 
 # On sniffe en passant en fonction de callback la fonction packetHandler
-sniff(count=300, iface=arguments.interface, prn=packetHandler)
-
+sniff(count=1000, iface=arguments.interface, prn=packetHandler)
