@@ -52,9 +52,9 @@ __Question__ : pourquoi les dispositifs iOS et Android récents ne peuvent-ils p
 
 a) Développer un script en Python/Scapy capable de lister toutes les STA qui cherchent activement un SSID donné
 
-![](images\list_ap_wireshark.png)
+![](images/list_ap_wireshark.png)
 
-![](images\list_ap_script.png)
+![](images/list_ap_script.png)
 
 > Nous avions choisi le SSID _Oblivion_v2_ comme SSID cible. Nous pouvons voir que sur la capture wireshark ci-dessus nous avons eu des demandes de deux STA différentes pour le SSID _Oblivion_v2_. Ces deux clients sont aussi listé par notre script.
 >
@@ -66,7 +66,7 @@ a) Développer un script en Python/Scapy capable de lister toutes les STA qui ch
 
 b) Développer un script en Python/Scapy capable de générer une liste d'AP visibles dans la salle et de STA détectés et déterminer quelle STA est associée à quel AP. Par exemple :
 
-![](images\list_ap_sta.png)
+![](images/list_ap_sta.png)
 
 STAs &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; APs
 
