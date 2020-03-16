@@ -20,7 +20,7 @@ def packet_handler(packet):
 sniff(iface=args['interface'], prn=packet_handler, timeout=10)
 
 print(bssid_list)
-input_arr = input("Which SSID would you like to create ?")
+input_arr = input("Which SSID would you like to create ? (Enter full SSID)")
 
 AP_MAC = RandMAC()
 SSID = bssid_list[input_arr]
