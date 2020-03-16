@@ -82,9 +82,9 @@ __Question__ : *pourquoi les dispositifs iOS et Android récents ne peuvent-ils 
 
 ### 2. Détection de clients et réseaux
 
-a) Développer un script en Python/Scapy capable de lister toutes les STA qui cherchent activement un SSID donnéhome/stefan/CloudStation/HEIG_3ème/Semestre2/SWI/Laboratoires/HEIGVD-SWI-Labo2-MAC-2/
+a) Développer un script en Python/Scapy capable de lister toutes les STA qui cherchent activement un SSID donné
 
-**Remarques :** Ici en paramètre de fonction, nous avons définit le nom de l'AP avec l'interface définit. Si la personne oublie, il y aura un message lui indiquant quel parametre mettre.
+**Remarques :** Ici en paramètre de fonction, nous avons définit le nom de l'AP avec l'interface définit. Si la personne oublie, il y aura un message lui indiquant quel paramètre mettre.
 
 ![](images/Step2a.png)
 
@@ -98,7 +98,7 @@ B8:17:C2:EB:8F:8F &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 08:EC:F5:28:1A:EF
 
 00:0E:35:C8:B8:66 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 08:EC:F5:28:1A:EF
 
-**Remarques :** Dans ce screenshot, on peut remarquer qu'on voit bien la station connecté à l'AP en comparant avec la commande de aircrack airodump-ng.
+**Remarques :** Dans ce screenshot, on peut remarquer qu'on voit bien la station connectée à l'AP en comparant avec la commande d'aircrack airodump-ng.
 
 ![](images/Step2b.png)
 
@@ -106,14 +106,14 @@ B8:17:C2:EB:8F:8F &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 08:EC:F5:28:1A:EF
 
 Développer un script en Python/Scapy capable de révéler le SSID correspondant à un réseau configuré comme étant "invisible".
 
-**Remarques:** En testant le script utilisé, nous n'avons pas réussi à récupérer le SSID et nous n'avons réussi qu'à récupérer 1 BSSID (voir l'image) alors que avec airodump nous avons pu voir qu'il y a plusieurs réseaux sans BSSID.
+**Remarques:** En testant le script utilisé, nous n'avons pas réussi à récupérer le SSID et nous n'avons réussi qu'à récupérer un BSSID (voir l'image) alors qu'avec airodump nous avons pu voir qu'il y a plusieurs réseaux sans BSSID.
 
 ![](images/Step3.jpg)
 
 __Question__ : expliquer en quelques mots la solution que vous avez trouvée pour ce problème ?
 
 ```
-Alors tout d'abord, on va récupérer les AP qui n'ont pas de nom en vérifiant que cela soit un beacon et que le pkt.info() soit vide. Ensuite, on insert dans un tableau la valeur du BSSID. Pour finir, on va récupérer les "probe responses" et analyser si le BSSID correspond à une des valeurs dans le tableau et que cela correspond on peut récupérer la valeur du SSID.
+Alors tout d'abord, on va récupérer les AP qui n'ont pas de nom en vérifiant que cela soit un beacon et que le pkt.info() soit vide. Ensuite, on insère dans un tableau la valeur du BSSID. Pour finir, on va récupérer les "probe responses", analyser si le BSSID correspond à l'une des valeurs dans le tableau. S'il y a correspondance on peut récupérer la valeur du SSID.
 ```
 
 
