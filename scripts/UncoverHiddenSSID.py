@@ -6,7 +6,6 @@
 #             correspondant à un réseau configuré comme étant "invisible".
 #-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==
 
-#import socket
 from scapy.all import *
 from scapy.layers.dot11 import Dot11Beacon, Dot11ProbeResp
 
@@ -21,13 +20,15 @@ uncovered_ssids_aps = set()
 def packetHandler(pkt):
     # Traitement si c'est un beacon frame
     if pkt.haslayer(Dot11Beacon):
-        # Dresser une liste des SSID disponibles à proximité       
+        # Dresser une liste des BSSID disponibles dont le nom est caché (longueur nulle)       
         if not pkt.info :
             if pkt.addr3 not in hidden_ssids_aps :
                 hidden_ssids_aps.add(pkt.addr3)
                 print("HIDDEN SSID Network Found! BSSID: ", pkt.addr3)
     # Traitement s'il s'agit d'une probe request
     elif Dot11ProbeResp in pkt and ( pkt.addr3 in hidden_ssids_aps ) :
+        # Si le nom du point d'accès a été découvert
+        # il est affiché et ajouté a la liste des ssid découvert
         if pkt.addr3 not in uncovered_ssids_aps :
             uncovered_ssids_aps.add(pkt.addr3)
             print("Uncovered HIDDEN SSID Network Found! ", pkt.info.decode(), pkt.addr3)
