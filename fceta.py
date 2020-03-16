@@ -27,7 +27,7 @@ def inputNumber(message, imin, imax):
             break
 
 def PacketHandler(packet):
-    if Dot11ProbeReq in packet and Dot11Elt in packet[Dot11ProbeReq] and packet[Dot11ProbeReq][Dot11Elt].ID == 0 and packet.info not in ap_list:
+    if Dot11ProbeReq in packet and Dot11Elt in packet[Dot11ProbeReq] and packet[Dot11ProbeReq][Dot11Elt].ID == 0 and packet.info not in ap_list and packet.info.decode("utf-8") != '':
             try:
                 intensity = packet.dBm_AntSignal
                 ssid = packet.info
