@@ -54,10 +54,19 @@ Pour la détection du SSID, vous devez utiliser Scapy. Pour proposer un evil twi
 (Sources eviltwin: https://thecybersecurityman.com/2018/08/11/pentest-edition-creating-an-evil-twin-or-fake-access-point-using-aircrack-ng-and-dnsmasq-part-1-setup/)
 (Sources sniff SSID: https://gist.github.com/securitytube/5291959)
 
+![preuve evil twin](images/probe_evil_twin.png)
+
+On peut voir que le channel est différent entre les deux trames quand on passe comme argument le wifi Palace :  
+  `sudo python3 probeRequestEvilTwin.py -i wlan1mon -s 15 -SSID Palace`
+
+
 __Question__ : comment ça se fait que ces trames puissent être lues par tout le monde ? Ne serait-il pas plus judicieux de les chiffrer ?
+
+Cela ne peut pas être chiffré car justement c'est avant l'établissement de la communication et donc avant l'échange de clef.
 
 __Question__ : pourquoi les dispositifs iOS et Android récents ne peuvent-ils plus être tracés avec cette méthode ?
 
+Depuis récemment, les addresses MAC des appareils iOS et Android sont aléatoires pendant le scanning passive de wifi. Cela veut dire que l'on ne peut plus nous tracker.
 
 ### 2. Détection de clients et réseaux
 
