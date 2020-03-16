@@ -11,26 +11,50 @@ def scan(packet):
     Méthode permettant l'anaylse de paquet DATA afin de repertorier les AP ainsi que les STA communiquant avec ces dernières
     :param packet: Paquet à analyser
     '''
-    addr1 = packet.addr1 #dest
-    addr2 = packet.addr2 #source
-    addr3 = packet.addr3 #bssid
+    addr1 = packet.addr1
+    addr2 = packet.addr2
+    addr3 = packet.addr3
 
     # On vérifie que le packet est bien de type DATA
     if packet.type == 2:
         if addr1 is not None and addr2 is not None and addr3 is not None and addr1 not in BANNED_MAC_ADDRESS:
             # On vérifie si le bssid est déjà présent, si non, on ajoute une netrée dans notre dictionnaire
 
-            if addr3 not in entries:
-                entries[addr3] = set()
+            # On recupere les ToDS et FromDS
+            # Source : https://stackoverflow.com/questions/30811426/scapy-python-get-802-11-ds-status
+            DS = packet.FCfield & 0x3
+            to_DS = DS & 0x1 != 0
+            from_DS = DS & 0x2 != 0
 
-            # Si l'adresse emettrice n'est pas égale au BSSID, on ajoute l'adresse dans l'entrée du dictionnaire correspondant au BSSID. Sinon on ajoute l'addr1.
-            if addr1 != addr3 and addr2 != addr3:
-                return
 
-            if addr2 != addr3 :
-                entries[addr3].add(addr2)
+
+            #Ces operations sont basées sur les règles vues dans le cours (chapitre 1, slide 57)
+
+            # Si la trame n'est pas to_DS et from_DS on ajoute addr1 et addr2
+            if(not to_DS and not from_DS):
+                if addr3 not in entries:
+                    entries[addr3] = set()
+                # Si l'adresse 3 est différente de l'adresse 1, on rajoute cette dernière
+                if addr1 != addr3 :
+                    entries[addr3].add(addr1)
+
+                # Si l'adresse 3 est différente de l'adresse 2, on rajoute cette dernière
+                if addr2 != addr3 :
+                    entries[addr3].add(addr2)
+
+            # Si la trame n'est pas to_DS mais est from_DS on ajoute addr1 (adresse de destination)
+            elif(not to_DS and from_DS):
+                if addr2 not in entries:
+                    entries[addr2] = set()
+                entries[addr2].add(addr1)
+
+            # Si la trame est to_DS et pas from_DS, on ajoute addr2 (adresse source)
+            elif(to_DS and not from_DS):
+                if addr1 not in entries:
+                    entries[addr1] = set()
+                entries[addr1].add(addr2)
             else:
-                entries[addr3].add(addr1)
+                return
 
 
 def printResult():
