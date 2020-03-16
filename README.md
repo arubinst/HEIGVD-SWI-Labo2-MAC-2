@@ -46,7 +46,7 @@ A des fins plus discutables du point de vue éthique, la détection de client s'
 ### 1. Probe Request Evil Twin Attack
 
 Nous allons nous intéresser dans cet exercice à la création d'un evil twin pour viser une cible que l'on découvre dynamiquement utilisant des probes.
- 
+
 Développer un script en Python/Scapy capable de detecter une STA cherchant un SSID particulier - proposer un evil twin si le SSID est trouvé (i.e. McDonalds, Starbucks, etc.).
 
 Pour la détection du SSID, vous devez utiliser Scapy. Pour proposer un evil twin, vous pouvez récupérer votre code du labo 1 ou vous servir d'un outil existant.
@@ -58,6 +58,8 @@ Les probes request et les beacons ne sont pas chiffrées. Elle ne peuvent pas l'
 __Question__ : pourquoi les dispositifs iOS et Android récents ne peuvent-ils plus être tracés avec cette méthode ?
 
 Ces appareils utilisent des MAC addresses aléatoires afin d'empécher le traçage.
+
+![Evil twin](images/twin.jpeg)
 
 ### 2. Détection de clients et réseaux
 
@@ -73,6 +75,8 @@ B8:17:C2:EB:8F:8F &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 08:EC:F5:28:1A:EF
 
 00:0E:35:C8:B8:66 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 08:EC:F5:28:1A:EF
 
+![Clients-network](images/cn.jpeg)
+
 ### 3. Hidden SSID reveal
 
 Développer un script en Python/Scapy capable de reveler le SSID correspondant à un réseau configuré comme étant "invisible".
@@ -81,6 +85,10 @@ __Question__ : expliquer en quelques mots la solution que vous avez trouvée pou
 
 Un réseau invisible ne partage pas son SSID dans les beacons. Cependant on peut obtenir les MACs via ces mêmes beacons.
 Maintenant que l'on a une liste des APs cachées on peut écouter les messages d'une potentielle station se connectant sur le réseau en comparant la MAC. Ceci est possible car la station envoie le SSID du réseau même s'il est caché.
+
+![Hidden SSID](images/hidden.jpeg)
+
+> Nous n’avons pas réussi à effectuer un screen avec fonctionnement réussi car nos Access Points à domicile ne le permettent pas.
 
 
 ## Livrables
