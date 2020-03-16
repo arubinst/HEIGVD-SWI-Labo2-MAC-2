@@ -89,7 +89,7 @@ Développer un script en Python/Scapy capable de reveler le SSID correspondant �
 ```bash
 $ python3 hiddenAP.py -i wlan0mon
 ```
-Nous n'avons pas pu effectuer de capture d'écran pour prouver le fonctionnement du script car lors du rendu nous n'avions pas de réseau wifi que nous pouvions mettre en caché.
+> Nous n'avons malheureusement pas pu effectuer de capture d'écran pour prouver le fonctionnement du script, car lors du rendu, nous n'avions pas de réseau wifi que nous pouvions mettre en caché.
 
 __Question__ : expliquer en quelques mots la solution que vous avez trouvée pour ce problème ?
 
