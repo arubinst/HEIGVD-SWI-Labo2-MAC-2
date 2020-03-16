@@ -51,6 +51,10 @@ Développer un script en Python/Scapy capable de detecter une STA cherchant un S
 
 Pour la détection du SSID, vous devez utiliser Scapy. Pour proposer un evil twin, vous pouvez récupérer votre code du labo 1 ou vous servir d'un outil existant.
 
+![](images\evil1.png)
+
+Lors de cette capture nous cherchions le _SSID_ équivalent à _Oblivion_v2_ à l'aide de notre script. Sur la capture nous pouvons remarquer que dès le moment ou il y a eu un _Probe Request_ notre script inonde le réseau avec des _Probe Response_ ayant le même SSID.
+
 __Question__ : comment ça se fait que ces trames puissent être lues par tout le monde ? Ne serait-il pas plus judicieux de les chiffrer ?
 
 ---
@@ -61,12 +65,28 @@ __Question__ : comment ça se fait que ces trames puissent être lues par tout l
 
 __Question__ : pourquoi les dispositifs iOS et Android récents ne peuvent-ils plus être tracés avec cette méthode ?
 
+> Car les nouveaux appareil utilisent des adresses MAC aléatoire afin d'éviter de pouvoir être tracé.
+
 
 ### 2. Détection de clients et réseaux
 
 a) Développer un script en Python/Scapy capable de lister toutes les STA qui cherchent activement un SSID donné
 
+![](images\list_ap_wireshark.png)
+
+![](images\list_ap_script.png)
+
+Nous avions choisi le SSID _Oblivion_v2_ comme SSID cible. Nous pouvons voir que sur la capture wireshark ci-dessus nous avons eu des demandes de deux STA différentes pour le SSID _Oblivion_v2_. Ces deux clients sont aussi listé par notre script.
+
+```bash
+$ python3 list_ap.py -i wlan0mon -s <SSID cible>
+```
+
+
+
 b) Développer un script en Python/Scapy capable de générer une liste d'AP visibles dans la salle et de STA détectés et déterminer quelle STA est associée à quel AP. Par exemple :
+
+![](images\list_ap_sta.png)
 
 STAs &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; APs
 
@@ -76,11 +96,21 @@ B8:17:C2:EB:8F:8F &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 08:EC:F5:28:1A:EF
 
 00:0E:35:C8:B8:66 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 08:EC:F5:28:1A:EF
 
+```bash
+$ python3 list_sta_ap.py -i wlan0mon
+```
+
+
+
 ### 3. Hidden SSID reveal
 
 Développer un script en Python/Scapy capable de reveler le SSID correspondant à un réseau configuré comme étant "invisible".
 
+
+
 __Question__ : expliquer en quelques mots la solution que vous avez trouvée pour ce problème ?
+
+> Dans un premier temps nous avons enregistré les adresses des réseaux qui étaient vide. Puis lorsque une personne va se connecter sur le réseau caché elle va devoir faire un _ProbeRequest_. Dès ce moment nous allons pouvoir lier le nom qui était dans la requête avec l'adresse que nous avions précédemment enregistré.
 
 ## Livrables
 
