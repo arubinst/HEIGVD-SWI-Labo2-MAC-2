@@ -6,7 +6,7 @@
 #          https://www.thepythoncode.com/article/create-fake-access-points-scapy
 #          https://gist.github.com/dropmeaword/42636d180d52e52e2d8b6275e79484a0
 #
-# Description: Le script permet de créer un fake AP si l'on trouve une probe request provenant
+# Description: Le script permet de créer un fake AP si l'on trouve une probe request provenent
 #              du SSID passé en paramètre.
 
 import argparse
@@ -28,8 +28,10 @@ def packethandler(pkt):
     if pkt.haslayer(Dot11ProbeReq):
         if pkt.info.decode() == args.SSID:
             #Si le nom correspond, on ajoute le paquet à la liste
-            ssid.append(pkt)
-            print("You are going to attack : " + pkt.info.decode())
+            ssid_list.append(pkt)
+            #On l'affiche une fois
+            if len(ssid_list) == 1:
+                print("You are going to attack : " + pkt.info.decode())
 
 
 print("In progress...")
@@ -37,7 +39,7 @@ print("In progress...")
 sniff(iface=args.interface, prn=packethandler, timeout=10)
 
 #Si la liste n'est pas vide on crée un fake AP avec le même SSID
-if len(ssid_list) > 0:
+if len(ssid_list) != 0:
     # Une nouvelle adresse MAC aléatoire
     sender_mac = RandMAC()
     # Même nom pour le nouveau SSID

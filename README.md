@@ -10,14 +10,22 @@ Développer un script en Python/Scapy capable de detecter une STA cherchant un S
 
 Pour la détection du SSID, vous devez utiliser Scapy. Pour proposer un evil twin, vous pouvez récupérer votre code du labo 1 ou vous servir d'un outil existant.
 
-```bash
-root@kali:~/PycharmProjects/SWI_Labo1# python SWI-Lab-02-Prob-Request-Evil-Tween-Attack.py -s Lio
-In progress...
-No SSID Lio Found
+Le script est disponible dans le dossier ```scripts/SWI-Lab-02-Prob-Request-Evil-Tween-Attack.py```
 
+L'utilisation est la suivante:
+
+```bash
+python3 SWI-Lab-02-Prob-Request-Evil-Tween-Attack.py -s Lio
+In progress...
+You are going to attack : Lio
+...............................................
 ```
 
-Dû au manque de matériels et aux conditions, il n'a pas été possible de correctement tester le script. Mais son exécution doit être correcte.
+On constate que sur l'image suivante que l'AP Lio existe bien en deux exemplaires : 
+
+<img src="images/p1.jpeg" alt="SSID Flooding Attack - Windows 1" style="zoom:50%;" />
+
+
 
 __Question__ : comment ça se fait que ces trames puissent être lues par tout le monde ? Ne serait-il pas plus judicieux de les chiffrer ?
 
