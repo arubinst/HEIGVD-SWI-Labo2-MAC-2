@@ -32,13 +32,8 @@ def packet_handler(p):
                 print('Found hidden Wi-Fi with address', bssid)
                 hidden_ssids[bssid] = None
 
-    if p.haslayer(Dot11ProbeReq):
-        #print(p.summary())
-        None
-
     if p.haslayer(Dot11ProbeResp):
         bssid = p.getlayer(Dot11).addr2.upper()
-        # print('Prob resp', p.info, bssid, p.getlayer(Dot11).addr3.upper())
         if bssid in hidden_ssids and hidden_ssids[bssid] is None:
             ssid = p.info.decode('utf-8')
             print('Found SSID "{}" for hidden Wi-Fi with BSSID {}'.format(ssid, bssid))
