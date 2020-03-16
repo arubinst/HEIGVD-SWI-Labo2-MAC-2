@@ -44,6 +44,7 @@ A des fins plus discutables du point de vue éthique, la détection de client s'
 ## Travail à réaliser
 
 ### 1. Probe Request Evil Twin Attack
+script : probeRequestEvilTwin.py
 
 Nous allons nous intéresser dans cet exercice à la création d'un evil twin pour viser une cible que l'on découvre dynamiquement utilisant des probes.
 
@@ -71,6 +72,7 @@ Depuis récemment, les addresses MAC des appareils iOS et Android sont aléatoir
 ### 2. Détection de clients et réseaux
 
 a) Développer un script en Python/Scapy capable de lister toutes les STA qui cherchent activement un SSID donné
+script : detectSTA.py
 
 ![Preuve detection](images/detectclient_a.png)
 
@@ -86,11 +88,13 @@ B8:17:C2:EB:8F:8F &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 08:EC:F5:28:1A:EF
 
 00:0E:35:C8:B8:66 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 08:EC:F5:28:1A:EF
 
+script: associatedDevice.py
 On peut voir tous les sta et ap qui communique : 
 
 ![preuve communication](images/sta_connected_to.png) 
 
 ### 3. Hidden SSID reveal
+script : hiddenSSIDRevealer.py
 
 Développer un script en Python/Scapy capable de reveler le SSID correspondant à un réseau configuré comme étant "invisible".
 
