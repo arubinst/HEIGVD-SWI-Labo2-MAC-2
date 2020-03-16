@@ -63,6 +63,10 @@ __Question__ : pourquoi les dispositifs iOS et Android récents ne peuvent-ils p
 
 a) Développer un script en Python/Scapy capable de lister toutes les STA qui cherchent activement un SSID donné
 
+![Preuve detection](images/detectclient_a.png)
+
+On peut voir ici que l'on cherchait le wifi Palace, wifi sur lequel je me suis connecté avec mon téléphone pendant le laps de temps de 15 secondes.
+
 b) Développer un script en Python/Scapy capable de générer une liste d'AP visibles dans la salle et de STA détectés et déterminer quelle STA est associée à quel AP. Par exemple :
 
 STAs &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; APs
