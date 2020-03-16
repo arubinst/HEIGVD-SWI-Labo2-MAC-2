@@ -52,13 +52,30 @@ Développer un script en Python/Scapy capable de detecter une STA cherchant un S
 Pour la détection du SSID, vous devez utiliser Scapy. Pour proposer un evil twin, vous pouvez récupérer votre code du labo 1 ou vous servir d'un outil existant.
 
 __Question__ : comment ça se fait que ces trames puissent être lues par tout le monde ? Ne serait-il pas plus judicieux de les chiffrer ?
+```
+1) Ces trames ne sont pas chiffrés, tous le monde peut donc les lire.
+2) Ce n'est pas possible de les chiffrer, car ces informations doivent être disponible publiquement, car les APs ont besoin de répondre aux Probes requests.
+```
 
 __Question__ : pourquoi les dispositifs iOS et Android récents ne peuvent-ils plus être tracés avec cette méthode ?
+```
+Les dispositifs récents utilisent des outils pour rendre les adresses MAC aléatoire durant l’émission de probe request. L'adresse MAC du périphérique est bel et bien utilisé une fois la connexion établie. L'utilisation d'adresse MAC aléatoire permet d'éviter d'être tracé car il sera dur de lier une personne et les adresse générée par son périphérique.
 
+Source : https://source.android.com/devices/tech/connect/wifi-mac-randomization
+https://manuals.info.apple.com/MANUALS/1000/MA1902/en_US/apple-platform-security-guide.pdf page 112
+```
+Screen du script:
+
+![](images/SWI_Labo02_Image01.png)
 
 ### 2. Détection de clients et réseaux
 
 a) Développer un script en Python/Scapy capable de lister toutes les STA qui cherchent activement un SSID donné
+
+Screen du script:
+
+![](images/SWI_Labo02_Image02.png)
+
 
 b) Développer un script en Python/Scapy capable de générer une liste d'AP visibles dans la salle et de STA détectés et déterminer quelle STA est associée à quel AP. Par exemple :
 
@@ -70,11 +87,23 @@ B8:17:C2:EB:8F:8F &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 08:EC:F5:28:1A:EF
 
 00:0E:35:C8:B8:66 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 08:EC:F5:28:1A:EF
 
+Screen du script:
+
+![](images/SWI_Labo02_Image03.png)
+
 ### 3. Hidden SSID reveal
 
 Développer un script en Python/Scapy capable de reveler le SSID correspondant à un réseau configuré comme étant "invisible".
 
 __Question__ : expliquer en quelques mots la solution que vous avez trouvée pour ce problème ?
+```
+Pour résoudre ce problème nous avons commencé par écouter les beacons, lorsque elles n'avaient pas de SSID émit, nous les avons ajoutés à une liste d'équivalence entre adresse MAC et SSID.
+En même temps nous recherchons les probes réponses provenant d'adresse mac déjà dans notre liste. Si nous en trouvons une elle nous permettra de mettre le SSID correspondant à jour car les SSID sont envoyés en clair par l'AP dans les probes réponses.
+```
+
+Screen du script:
+
+![](images/SWI_Labo02_Image04.png)
 
 ## Livrables
 
