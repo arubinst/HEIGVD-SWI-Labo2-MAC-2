@@ -1,9 +1,9 @@
-# Laboratoire 2 - Attaque "evil twin", nous attendons un probe request pour un
-# SSID donné et nous inondons le réseau avec des probe response avec le SSID
-# correspondant
+# Laboratoire 2 - Attaque "evil twin". Nous attendons un probe request pour un
+# SSID donné puis nous inondons le réseau de probe responses avec le SSID correspondant.
 # usage: python3 evilTwin.py -i wlan0mon -s freewifi
 #
 # Caroline monthoux - Rémi Poulard
+
 from scapy.all import *
 import argparse
 

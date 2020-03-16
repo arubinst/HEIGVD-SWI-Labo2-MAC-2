@@ -2,6 +2,7 @@
 # usage: python3 hiddenAP.py -i wlan0mon
 #
 # Caroline monthoux - Rémi Poulard
+
 from scapy.all import *
 import argparse
 
@@ -16,19 +17,19 @@ args = parser.parse_args()
 iface = args.Interface
 bssid_found = {}
 
-# Cette mathode va découvrir les réseaux caché en regardant les trame de type beacon
-# avec un SSID vide. Lorsque un client se connect sur un réseau caché la methode
-# va pouvoir ajouter le nom du réseau lié é l'adresse MAC
+# Cette méthode va découvrir les réseaux cachés en regardant les trames de type beacon
+# avec un SSID vide. Lorsqu'un client se connecte sur un réseau caché, la méthode
+# va pouvoir ajouter le nom du réseau lié à cette adresse MAC
 def discover_hidden_ssid(packet):
     if Dot11Elt in packet:
-        # On connait déjà cette adresse mais on n'avait pas le SSID correspondant
+        # On connait déjà cette adresse, mais on n'avait pas le SSID correspondant
         if Dot11ProbeResp in packet and packet.addr3 in bssid_found:
             # On ajoute le SSID à l'adresse
             bssid_found[packet.addr3] = packet.info.decode("utf-8")
 
-        # le nom est du SSID est vide et cette adresse n'est pas encore stocké
+        # Le nom du SSID est vide et cette adresse n'est pas encore stockée
         elif Dot11Beacon in packet and packet.info.decode("utf-8") == '' and packet.addr3 not in bssid_found:
-            # We don't have the SSID yet
+            # On a pas encore le SSID
             bssid_found[packet.addr3] = "Unknown"
 
 
