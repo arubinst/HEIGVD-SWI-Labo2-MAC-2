@@ -18,7 +18,6 @@ def scan(packet):
     # On vérifie que le packet est bien de type DATA
     if packet.type == 2:
         if addr1 is not None and addr2 is not None and addr3 is not None and addr1 not in BANNED_MAC_ADDRESS:
-            # On vérifie si le bssid est déjà présent, si non, on ajoute une netrée dans notre dictionnaire
 
             # On recupere les ToDS et FromDS
             # Source : https://stackoverflow.com/questions/30811426/scapy-python-get-802-11-ds-status
@@ -35,11 +34,11 @@ def scan(packet):
                 if addr3 not in entries:
                     entries[addr3] = set()
                 # Si l'adresse 3 est différente de l'adresse 1, on rajoute cette dernière
-                if addr1 != addr3 :
+                if addr1 != addr3:
                     entries[addr3].add(addr1)
 
                 # Si l'adresse 3 est différente de l'adresse 2, on rajoute cette dernière
-                if addr2 != addr3 :
+                if addr2 != addr3:
                     entries[addr3].add(addr2)
 
             # Si la trame n'est pas to_DS mais est from_DS on ajoute addr1 (adresse de destination)
