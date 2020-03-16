@@ -106,9 +106,17 @@ B8:17:C2:EB:8F:8F &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 08:EC:F5:28:1A:EF
 
 Développer un script en Python/Scapy capable de révéler le SSID correspondant à un réseau configuré comme étant "invisible".
 
-**Remarques:** En testant le script utilisé, nous n'avons pas réussi à récupérer le SSID et nous n'avons réussi qu'à récupérer un BSSID (voir l'image) alors qu'avec airodump nous avons pu voir qu'il y a plusieurs réseaux sans BSSID.
+**Remarques:** En testant le script utilisé, nous n'avons pas réussi à récupérer le SSID et nous n'avons réussi qu'à récupérer un BSSID (voir l'image) alors qu'avec airodump nous avons pu voir qu'il y a plusieurs réseaux sans BSSID. On a fait essayer à un collegue de la classe et cela a fonctionné chez lui.
 
 ![](images/Step3.jpg)
+
+**Chez le collegue :**
+
+```
+HIDDEN BSSID: cc:5d:4e:b5:0a:cc
+HIDDEN SSID Uncovered:b'ZyXEL4634amm' cc:5d:4e:b5:0a:cc
+HIDDEN SSID Uncovered:b'ZyXEL4634amm' cc:5d:4e:b5:0a:cc
+```
 
 __Question__ : expliquer en quelques mots la solution que vous avez trouvée pour ce problème ?
 
