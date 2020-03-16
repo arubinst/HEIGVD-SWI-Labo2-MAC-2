@@ -15,9 +15,10 @@ Car l'adresse MAC de ces périphériques est randomisée afin de les protéger.
 
 > Chemin du script : HEIGVD-SWI-Labo2-MAC-2/scripts/ProbeRequestEvilTwinAttack.py
 
-#### Preuve de fonctionnement du script:
+#### Utilisation du script:
+Le script n'a malheureusement pas été testé par manque de temps.
 
-![]()
+![](images/commande_script_1.png)
   
 
 ### 2. Détection de clients et réseaux

