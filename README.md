@@ -35,7 +35,7 @@ Développer un script en Python/Scapy capable de detecter une STA cherchant un S
 
 Pour la détection du SSID, vous devez utiliser Scapy. Pour proposer un evil twin, vous pouvez récupérer votre code du labo 1 ou vous servir d'un outil existant.
 
-![](images\evil1.png)
+![](./images/evil1.png)
 
 > Lors de cette capture, nous cherchions le _SSID_ équivalent à _Oblivion_v2_ à l'aide de notre script. Nous pouvons remarquer que dès l'instant où une _Probe Request_ a été envoyée par une STA, notre script inonde le réseau avec des _Probe Responses_ ayant le même SSID.
 
