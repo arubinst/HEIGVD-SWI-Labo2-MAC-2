@@ -19,7 +19,7 @@ if len(sys.argv) != 2:
 def PacketHandler(pkt):
 
     # To get the ssid we check the prob response and check that the address is on our array
-    if (pkt.haslayer(Dot11ProbeResp) ) and ( pkt.addr3 in hidden_ssid_aps ):
+    if ( pkt.type == 0 ) and ( pkt.subtype == 5 ) and ( pkt.addr3 in hidden_ssid_aps ):
         print ("HIDDEN SSID Uncovered:" + str(pkt.info) + " " + str(pkt.addr3))
 
     # if it's a beacon
