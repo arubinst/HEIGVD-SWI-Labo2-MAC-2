@@ -9,7 +9,6 @@
 
 import sys
 from scapy.all import *
-#import os
 import argparse
 from scapy.layers.dot11 import Dot11Beacon, Dot11, Dot11Elt, RadioTap, Dot11ProbeResp, Dot11ProbeReq
 
@@ -17,12 +16,12 @@ stations  = []
 
 # Arguments
 parser = argparse.ArgumentParser(description="script capable de lister toutes les STA qui cherchent activement un SSID donné")
-parser.add_argument("-i", "--interface", required=True, help="l'interface d'écoute")
+parser.add_argument("-i", "--interface", required=True, help="interface d'écoute")
 parser.add_argument("--ssid", required=True, type=str, help="le SSID a donné")
 
 arguments = parser.parse_args()
 
-def packetHandler(pkt):
+def packetHandler(packet):
     if Dot11ProbeReq in packet and Dot11Elt in packet[Dot11ProbeReq]:
         copiedPacket = packet
         packet = packet[Dot11ProbeReq]
@@ -34,8 +33,8 @@ def packetHandler(pkt):
                 stations.append(adr)
               print(adr)
 
-
 print("STAs recherchant le ssid " + arguments.ssid + " : \n")
+
 # On sniffe en passant en fonction de callback la fonction packetHandler
 sniff(count=300, iface=arguments.interface, prn=packetHandler)
 
