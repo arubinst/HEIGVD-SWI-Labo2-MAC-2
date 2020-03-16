@@ -65,6 +65,20 @@ __Question__ : *pourquoi les dispositifs iOS et Android récents ne peuvent-ils 
 
 ---
 
+**Script**
+
+*Lancement du script :*
+
+![Probe scanning](images/ProbeScanning.png)
+
+*SSID cible trouvé et attaque evil twin :*
+
+![SSID found and evil twin attack](images/ProbeFound_EvilTwin.png)
+
+*Capture wireshark de l'attaque evil twin :*
+
+![Wireshark capture](images/Beacon_evilTwin_Wireshark.png)
+
 
 ### 2. Détection de clients et réseaux
 
