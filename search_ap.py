@@ -8,20 +8,19 @@ from scapy.all import *
 from scapy.layers.dot11 import Dot11
 from scapy.sendrecv import sniff
 
-iface = "en0"
+iface = "wlp0s20u1"
 
 sta_list = {}
 
 def PacketHandler(packet):
     #Capture if toDS and fromDS is 0 and if a new STA / AP association
-    if Dot11 in packet \
-        and p.FCfield & 0x1 == 0 \
-        and p.FCfield & 0x2 == 0 \
-        and packet.addr2 not in sta_list \
-        or packet.addr3 not in sta_list[packet.addr2]:
-
+    if packet.haslayer(Dot11Elt)\
+        and packet.FCfield & 0x1 == 0 \
+        and packet.FCfield & 0x2 == 0 \
+        and str(packet.addr3) != "ff:ff:ff:ff:ff:ff" \
+        and (packet.addr2 not in sta_list or packet.addr3 not in sta_list[packet.addr2]):
         try:
-            sta = packet.addr2
+            sta = packet.addr2 if packet.addr2 != packet.addr3 else packet.addr1
             bssid = packet.addr3
 
             # Store for remove duplicate
@@ -30,8 +29,7 @@ def PacketHandler(packet):
             else: #first found
                 sta_list[sta] = [bssid]
 
-            print("%s\t %s" % (
-                len(sta_list), sta, ssid_wanted, intensity))
+            print("%s\t %s" % (sta, bssid))
         except Exception as e:
             print(e)
             return
