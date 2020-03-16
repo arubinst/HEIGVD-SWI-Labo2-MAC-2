@@ -1,4 +1,5 @@
 # Source:
+# - https://stackoverflow.com/questions/10672053/python-scapy-randmac-issue
 #
 # Author: Victor Truan, Jerome Bagnoud | SWI - Labo 02 - Exo 01
 
@@ -22,7 +23,8 @@ def handlePacket(packet):
 
 def spawnEvilTwin():
     print("Le SSID passe en parametre a ete detecte, creation du faux AP en cours...")
-    fakeAPMAC = RandMAC()
+    # Source: https://stackoverflow.com/questions/10672053/python-scapy-randmac-issue
+    fakeAPMAC = str(RandMAC())
     evilTwinPacket = RadioTap() / Dot11(type=0, subtype=8, addr1=BROADCAST_MAC_ADDRESS,addr2=fakeAPMAC, addr3=fakeAPMAC) / Dot11Beacon() / Dot11Elt(ID= "SSID", info=arguments.ssid)
 
     while True:
