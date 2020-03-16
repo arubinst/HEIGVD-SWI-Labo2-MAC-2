@@ -10,7 +10,7 @@ Développer un script en Python/Scapy capable de detecter une STA cherchant un S
 
 Pour la détection du SSID, vous devez utiliser Scapy. Pour proposer un evil twin, vous pouvez récupérer votre code du labo 1 ou vous servir d'un outil existant.
 
-Le script est disponible dans le dossier ```scripts/SWI-Lab-02-Prob-Request-Evil-Tween-Attack.py```
+Le script est disponible dans le dossier `scripts/SWI-Lab-02-Prob-Request-Evil-Tween-Attack.py`
 
 L'utilisation est la suivante:
 
@@ -21,7 +21,7 @@ You are going to attack : Lio
 ...............................................
 ```
 
-On constate que sur l'image suivante que l'AP Lio existe bien en deux exemplaires : 
+On constate que sur l'image suivante que l'AP Lio existe, maintenant, bien en deux exemplaires : 
 
 <img src="images/p1.jpeg" alt="SSID Flooding Attack - Windows 1" style="zoom:50%;" />
 
@@ -125,7 +125,20 @@ STA 01:00:5e:7f:ff:fa is connected to AP e8:d1:1b:98:dc:90
 
 Développer un script en Python/Scapy capable de reveler le SSID correspondant à un réseau configuré comme étant "invisible".
 
+Le script est disponible dans le dossier `scripts/SWI-Lab-02-Hidden-SSID-Reveal`.
+
+L'utilisation est la suivante:
+
+```bash
+root@kali:~/PycharmProjects/SWI_Labo1# python SWI-Lab-02-Hidden-SSID-Reveal.py 
+In progress...
+```
+
+Nous n'avons pas tester le script par manque de matériel, je n'ai que le partage de connexion de mon smartphone pour avoir une connexion internet et non un vrai routeur pour y créer un réseau caché. 
+
 __Question__ : expliquer en quelques mots la solution que vous avez trouvée pour ce problème ?
+
+On scane d'abord les beacon frames, on regarde si il y a un SSID null, si oui, on ajoute son addresse MAC à un set pour ensuite tester les paquets contenant des probes responses. De ce fait, si l'une des probes responses à une adresse mac contenu dans le set, on peut récupérer le nom de l'AP. Il faut, pour cela, qu'un appreille se connecte au réseau "invisible".
 
 ## Livrables
 
