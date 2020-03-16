@@ -53,7 +53,15 @@ Pour la détection du SSID, vous devez utiliser Scapy. Pour proposer un evil twi
 
 __Question__ : comment ça se fait que ces trames puissent être lues par tout le monde ? Ne serait-il pas plus judicieux de les chiffrer ?
 
+Ces trames interviennent dans la phase de détection des réseaux environnants.
+Il est donc impossible de dissimuler le contenu de ces dernières, étant donné que ce stade, aucun secret n'existe entre un client (STA) et les APs.
+
 __Question__ : pourquoi les dispositifs iOS et Android récents ne peuvent-ils plus être tracés avec cette méthode ?
+
+Car ces appareils disposent de système ayant pour fonction de changer régulièrement leur adresse MAC.
+Ce procédé s'appelle *MAC address randomization*, et limite donc de théoriquement la possibilité de suivre une même adresse dans le temps et l'espace.
+
+Cette méthode n'est cependant pas toujours efficace ou suffisante [(source)](https://www.researchgate.net/publication/314361145_A_Study_of_MAC_Address_Randomization_in_Mobile_Devices_and_When_it_Fails).
 
 
 ### 2. Détection de clients et réseaux
@@ -75,6 +83,14 @@ B8:17:C2:EB:8F:8F &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 08:EC:F5:28:1A:EF
 Développer un script en Python/Scapy capable de reveler le SSID correspondant à un réseau configuré comme étant "invisible".
 
 __Question__ : expliquer en quelques mots la solution que vous avez trouvée pour ce problème ?
+
+Afin de résoudre ce problème, nous avons filtré deux types de paquets : les *Beacons* et les *Probe Response*.
+
+En effet, un AP ayant décidé de masquer son SSID produira des *Beacons* avec un SSID vide ou même aucun champ SSID.
+Cette première information permet donc de détecter et stocker les BSSID correspondant à des réseaux masqués.
+
+Enfin, les trames de type *Probe Response* (générées par les APs) contiennent le SSID, et ce même pour les réseaux masqués.
+Il nous suffit donc de chercher les associations entre les BSSIDs trouvés à la première étape et ceux de cette dernière afin de révéler de tels réseaux.
 
 ## Livrables
 
