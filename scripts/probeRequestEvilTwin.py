@@ -9,7 +9,7 @@ import os
 from scapy.all import Dot11,Dot11Beacon,Dot11Elt,RadioTap,sendp,hexdump
 
 parser = argparse.ArgumentParser(prog="Evil Twin attack",
-                                 usage=" python3 evilTwin.py -i [interface]\n",
+                                 usage=" python3 evilTwin.py -i [interface] -s [secondes] -SSID [wifi_SSID]\n",
                                  allow_abbrev=False)
 parser.add_argument("-i", "--Interface", required=True, help="Interface from which you want to send packets, needs to be set to monitor mode ")
 parser.add_argument("-s", "--Second", required=True, help="Number of second you will monitor packets")
@@ -17,13 +17,13 @@ parser.add_argument("-SSID", required=True, help="SSID of the wifi (if found) wi
 
 args = parser.parse_args()
 
-# initialize the networks dataframe that will contain all access points nearby
-# for each network we also want to apture the beacon sent
+# Initialize the networks that will contain STAs that are looking for the targeted AP
+# initialize the networksBeacon dataframe that will contain AP targeted
 
 networks = pandas.DataFrame(columns=["STA MAC", "searched SSID"])
 networksBeacon = pandas.DataFrame(columns=["BSSID", "SSID", "Packet"])
 
-# set the index BSSID (MAC address of the AP) for both dataFrame
+# set the index for both dataFrame
 networks.set_index("STA MAC", inplace=True)
 networksBeacon.set_index("BSSID", inplace=True)
 
