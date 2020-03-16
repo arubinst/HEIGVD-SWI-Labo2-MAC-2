@@ -22,7 +22,7 @@ def PacketHandler(packet):
         return
 
     # Remove broadcast
-    if str(packet.addr3) == "ff:ff:ff:ff:ff:ff" or str(packet.addr1) != "ff:ff:ff:ff:ff:ff":
+    if str(packet.addr3) == "ff:ff:ff:ff:ff:ff" or str(packet.addr1) == "ff:ff:ff:ff:ff:ff":
         return
 
     try:
