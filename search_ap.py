@@ -18,6 +18,7 @@ def PacketHandler(packet):
         and packet.FCfield & 0x1 == 0 \
         and packet.FCfield & 0x2 == 0 \
         and str(packet.addr3) != "ff:ff:ff:ff:ff:ff" \
+        and str(packet.addr1) != "ff:ff:ff:ff:ff:ff" \
         and (packet.addr2 not in sta_list or packet.addr3 not in sta_list[packet.addr2]):
         try:
             sta = packet.addr2 if packet.addr2 != packet.addr3 else packet.addr1
