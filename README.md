@@ -53,8 +53,14 @@ Pour la détection du SSID, vous devez utiliser Scapy. Pour proposer un evil twi
 
 __Question__ : comment ça se fait que ces trames puissent être lues par tout le monde ? Ne serait-il pas plus judicieux de les chiffrer ?
 
+Comme il s'agit de trames de connexion, aucun secret n'a encore été partagé entre la STA et l'AP. Le chiffrement est alors inutile puisque l'AP ne pourra alors pas savoir
+quelle STA veut s'y connecter et donc, ne pourra donc pas leur répondre.
+
 __Question__ : pourquoi les dispositifs iOS et Android récents ne peuvent-ils plus être tracés avec cette méthode ?
 
+Les probes requests voient leur adresse mac "randomisées" pour palier à ce genre d'attaque.\
+Cependant une fois la connexion faite, les adresses MAC sont bien celles qui correspondent aux différentes stations.\
+sources: https://community.arubanetworks.com/t5/Wireless-Access/Apple-iOS-8-Probe-Probe-Request-Randomization/td-p/171352
 
 ### 2. Détection de clients et réseaux
 
