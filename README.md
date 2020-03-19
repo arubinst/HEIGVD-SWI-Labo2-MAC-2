@@ -51,14 +51,30 @@ Développer un script en Python/Scapy capable de detecter une STA cherchant un S
 
 Pour la détection du SSID, vous devez utiliser Scapy. Pour proposer un evil twin, vous pouvez récupérer votre code du labo 1 ou vous servir d'un outil existant.
 
+#### Exemple de fonctionnement du script
+
+![exo1 script](images/exo1.jpg)
+
+![exo1 airodump](images/exo1_airodump.jpg)
+
 __Question__ : comment ça se fait que ces trames puissent être lues par tout le monde ? Ne serait-il pas plus judicieux de les chiffrer ?
+
+Comme il s'agit de trames de connexion, aucun secret n'a encore été partagé entre la STA et l'AP. Le chiffrement est alors inutile puisque l'AP ne pourra alors pas savoir
+quelle STA veut s'y connecter et donc, ne pourra donc pas leur répondre.
 
 __Question__ : pourquoi les dispositifs iOS et Android récents ne peuvent-ils plus être tracés avec cette méthode ?
 
+Les probes requests voient leur adresse mac "randomisées" pour palier à ce genre d'attaque.\
+Cependant une fois la connexion faite, les adresses MAC sont bien celles qui correspondent aux différentes stations.\
+sources: https://community.arubanetworks.com/t5/Wireless-Access/Apple-iOS-8-Probe-Probe-Request-Randomization/td-p/171352
 
 ### 2. Détection de clients et réseaux
 
 a) Développer un script en Python/Scapy capable de lister toutes les STA qui cherchent activement un SSID donné
+
+#### Exemple de fonctionnement du script
+
+![exo2 find sta](images/exo2_find_sta.jpg)
 
 b) Développer un script en Python/Scapy capable de générer une liste d'AP visibles dans la salle et de STA détectés et déterminer quelle STA est associée à quel AP. Par exemple :
 
@@ -70,11 +86,21 @@ B8:17:C2:EB:8F:8F &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 08:EC:F5:28:1A:EF
 
 00:0E:35:C8:B8:66 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 08:EC:F5:28:1A:EF
 
+#### Exemple de fonctionnement du script
+
+![exo2 network](images/exo2_network.jpg)
+
 ### 3. Hidden SSID reveal
 
 Développer un script en Python/Scapy capable de reveler le SSID correspondant à un réseau configuré comme étant "invisible".
 
+#### Exemple de fonctionnement du script
+
+![exo3](images/exo3.jpg)
+
 __Question__ : expliquer en quelques mots la solution que vous avez trouvée pour ce problème ?
+
+Nous avons tout d'abord cherché les adresses MAC des AP qui envoient des beacons sans leur nom (réseaux cachés), puis nous avont sniffé les *probe responses* pour associer les SSIDs dans ces messages aux adresses MAC trouvées précédemment.
 
 ## Livrables
 
