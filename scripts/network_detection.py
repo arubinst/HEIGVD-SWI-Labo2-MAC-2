@@ -30,7 +30,9 @@ def packetHandler(pkt):
             ap_mac = pkt.addr3
 
             if ap_mac in net_topo:
-                net_topo[ap_mac].add(src_mac)
+                 s = net_topo[ap_mac]
+                 s.add(src_mac)
+                 net_topo.update(ap_mac : s)
             else:
                 net_topo[ap_mac] = {src_mac}
 
