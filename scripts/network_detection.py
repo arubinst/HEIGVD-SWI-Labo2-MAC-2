@@ -11,12 +11,13 @@ def packetHandler(pkt):
     if pkt.haslayer(Dot11):
         if pkt.type == 0:
 
-            # get packet infos
-            ssid = pkt.info
-            mac = pkt.addr2
-
             # handle AP beacons
             if pkt.subtype == 8:
+
+                # get packet infos
+                ssid = pkt.info
+                mac = pkt.addr2
+
                 if ssid not in net_topo:
                     net_topo[ssid] = {}
                     ssid_mac_map[ssid] = mac
@@ -25,6 +26,11 @@ def packetHandler(pkt):
 
             # handle STA probe requests
             elif pkt.subtype == 4:
+
+                # get packet infos
+                ssid = pkt.info
+                mac = pkt.addr2
+                
                 if ssid in net_topo:
                     net_topo[ssid].add(mac)
 
