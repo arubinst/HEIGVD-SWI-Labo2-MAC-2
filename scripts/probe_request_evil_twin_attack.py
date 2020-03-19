@@ -7,13 +7,19 @@
 
 from scapy.all import *
 
+import argparse
+
+parser = argparse.ArgumentParser()
+
+parser.add_argument("--ssid", required=True, type=str, help="Target SSID you want to fake")
+
 pkt_list = []
 invalid = True
 counter = -1
 input_id = -1
 chan = 0
 interface = "wlan0mon"
-target_ssid = "EHJ-15769"
+target_ssid = parser.parse_args().ssid
 fake_ap_mac = RandMAC()
 
 def PacketHandler(pkt) :
