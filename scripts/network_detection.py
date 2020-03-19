@@ -2,7 +2,7 @@
 
 from scapy.all import *
 
-interface = "wlp2s0mon"
+interface = "wlan0mon"
 
 net_topo = {}
 
@@ -19,7 +19,7 @@ def packetHandler(pkt):
                 mac = pkt.addr2
 
                 if ssid not in net_topo:
-                    net_topo[mac] = {}
+                    net_topo[mac] = set()
 
                     print("found AP : {} with MAC {}".format(ssid, mac))
         # Data type
@@ -32,7 +32,7 @@ def packetHandler(pkt):
             if ap_mac in net_topo:
                  s = net_topo[ap_mac]
                  s.add(src_mac)
-                 net_topo.update(ap_mac : s)
+                 net_topo.update({ap_mac : s})
             else:
                 net_topo[ap_mac] = {src_mac}
 
