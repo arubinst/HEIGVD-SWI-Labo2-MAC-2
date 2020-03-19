@@ -82,6 +82,8 @@ Développer un script en Python/Scapy capable de reveler le SSID correspondant �
 
 __Question__ : expliquer en quelques mots la solution que vous avez trouvée pour ce problème ?
 
+Nous avons tout d'abord cherché les adresses MAC des AP qui envoient des beacons sans leur nom (réseaux cachés), puis nous avont sniffé les *probe responses* pour associer les SSIDs dans ces messages aux adresses MAC trouvées précédemment.
+
 ## Livrables
 
 Un fork du repo original . Puis, un Pull Request contenant :
