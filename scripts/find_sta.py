@@ -7,7 +7,7 @@ interface = "wlan0mon"
 
 searched_ssid = "default_ssid"
 
-sta_set = {}
+sta_set = set()
 
 def packetHandler(pkt):
     if pkt.haslayer(Dot11):

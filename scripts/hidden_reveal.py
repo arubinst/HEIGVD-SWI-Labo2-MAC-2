@@ -2,8 +2,6 @@
 
 #sources:
 # https://www.pentesteracademy.com/video?id=471
-# https://www.shellvoide.com/python/how-to-code-a-simple-wireless-sniffer-in-python/
-# https://www.acrylicwifi.com/en/blog/hidden-ssid-wifi-how-to-know-name-of-network-without-ssid/
 
 from scapy.all import *
 
@@ -24,5 +22,5 @@ def PacketHandler(pkt) :
 			print "Hidden AP reveal : %s on MAC : %s" %(pkt.info.decode("utf-8"), str(pkt.addr3))
 
 # we start sniffing packets on interface wlan0mon, it must first be activated with sudo airmon-ng start wlan0
-sniff(iface=interface, prn = PacketHandler, count=200)
+sniff(iface=interface, prn = PacketHandler, count=1000)
 
