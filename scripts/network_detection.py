@@ -2,13 +2,13 @@
 
 from scapy.all import *
 
-interface = "wlan0mon"
+interface = "wlp2s0mon"
 
 net_topo = {}
-ssid_mac_map = {}
 
 def packetHandler(pkt):
     if pkt.haslayer(Dot11):
+        # Management type
         if pkt.type == 0:
 
             # handle AP beacons
@@ -19,32 +19,30 @@ def packetHandler(pkt):
                 mac = pkt.addr2
 
                 if ssid not in net_topo:
-                    net_topo[ssid] = {}
-                    ssid_mac_map[ssid] = mac
+                    net_topo[mac] = {}
 
-                    print("AP : {} with MAC {}".format(ssid, mac))
+                    print("found AP : {} with MAC {}".format(ssid, mac))
+        # Data type
+        elif pkt.type == 2:
 
-            # handle STA probe requests
-            elif pkt.subtype == 4:
+            # get packet infos
+            src_mac = pkt.addr1
+            ap_mac = pkt.addr3
 
-                # get packet infos
-                ssid = pkt.info
-                mac = pkt.addr2
-                
-                if ssid in net_topo:
-                    net_topo[ssid].add(mac)
+            if ap_mac in net_topo:
+                net_topo[ap_mac].add(src_mac)
+            else:
+                net_topo[ap_mac] = {src_mac}
 
-                    print("STA : {} with MAC {}".format(ssid, mac))
 
-# we sniff packets for a while to
+
+# we start sniffing the packets
 sniff(iface=interface, prn = packetHandler, count=200)
 
 # print results
 print("STAs             APs")
-for ssid in net_topo:
-    # get the mac address from the ssid
-    ap_mac = ssid_mac_map[ssid]
+for ap_mac in net_topo:
     # show clients
-    for client_mac in net_topo[ssid]:
+    for client_mac in net_topo[ap_mac]:
         print("{}       {}".format(client_mac, ap_mac))
 
